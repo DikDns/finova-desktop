@@ -1,4 +1,3 @@
-
 package Login;
 
 import javax.swing.JOptionPane;
@@ -10,13 +9,14 @@ import java.sql.ResultSet;
 import Database.DatabaseManager;
 import Home.HomePage;
 import Database.UserSession;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class Login extends javax.swing.JFrame {
-
+    
     public Login() {
         initComponents();
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
@@ -207,18 +207,27 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         // login code
         var user_id = username.getText();
-        var pass = password.getText();
-
-        if (user_id.isEmpty() || pass.isEmpty()) {
+        var pass = password.getPassword();
+        
+        if (user_id.isEmpty() || pass.length == 0) {
             JOptionPane.showMessageDialog(rootPane, "Please fill in both username and password fields.");
             return;
         }
-
+        
         try {
             DatabaseManager.connect();
-            ResultSet rs = DatabaseManager.executeQuery(
-                    "SELECT * FROM user WHERE username = '" + user_id + "' AND password = '" + pass + "'");
-            if (rs.next()) {
+            String passwordString = new String(pass);
+            ResultSet rs = DatabaseManager.executeQuery("SELECT * FROM user WHERE username = '" + user_id + "'");
+            
+            if (!rs.next()) {
+                throw new Exception("Username not found!");
+            }
+            
+            String hashedPassword = rs.getString("password");
+            
+            Boolean isValid = BCrypt.checkpw(passwordString, hashedPassword);
+            
+            if (isValid) {
                 JOptionPane.showMessageDialog(null,
                         "Welcome " + user_id + " to Finance Management \n You have Successfully logged in ");
                 UserSession s = new UserSession();
@@ -234,7 +243,7 @@ public class Login extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, e);
         }
-
+        
     }// GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {

@@ -13,34 +13,47 @@ import java.sql.ResultSet;
 import Database.DatabaseManager;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.mindrot.jbcrypt.BCrypt;
 
 class PasswordException extends Exception {
+
     public PasswordException(String message) {
         super(message);
     }
 }
 
 public class SignUp extends javax.swing.JFrame {
+
     public SignUp() {
         initComponents();
     }
 
-    private void passwordRestrictions(String password) throws PasswordException {
+    private void passwordRestrictions(char[] password) throws PasswordException {
         // Define password restrictions
         int minLength = 8;
-        String specialCharacters = "!@#$%^&*()_+";
 
-        // Check minimum length
-        if (password.length() < minLength) {
+        // Check minimum length (works directly with char[])
+        if (password.length < minLength) {
             throw new PasswordException("Password should be at least " + minLength + " characters long.");
         }
 
-        // Check for special characters
-        Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
-        Matcher matcher = pattern.matcher(password);
-        if (!matcher.find()) {
+        // Check for special characters by iterating through the char[]
+        // This is the more secure approach as it avoids creating a String.
+        boolean hasSpecialChar = false;
+        for (char c : password) {
+            // Check if the character is NOT a letter or digit
+            if (!Character.isLetterOrDigit(c)) {
+                hasSpecialChar = true;
+                break; // Found one, no need to check further
+            }
+        }
+
+        if (!hasSpecialChar) {
             throw new PasswordException("Password should contain at least one special character.");
         }
+
+        // IMPORTANT: The ORIGINAL char[] must still be cleared *outside* this method
+        // once the password data is no longer required.
     }
 
     @SuppressWarnings("unchecked")
@@ -269,24 +282,26 @@ public class SignUp extends javax.swing.JFrame {
     }// GEN-LAST:event_passwordActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
+        // Assuming name, username, and password are JTextField or similar components
+        String name1 = name.getText();
+        String username1 = username.getText();
+        char[] password1 = password.getPassword();
 
         try {
             DatabaseManager.connect();
 
-            // Assuming name, username, and password are JTextField or similar components
-            String name1 = name.getText();
-            String username1 = username.getText();
-            String password1 = password.getText();
-
             // Check if any of the fields are empty
-            if (name1.isEmpty() || username1.isEmpty() || password1.isEmpty()) {
+            if (name1.isEmpty() || username1.isEmpty() || password1.length == 0) {
                 String errorMessage = "Please fill in the following field(s):";
-                if (name1.isEmpty())
+                if (name1.isEmpty()) {
                     errorMessage += "\n- Name";
-                if (username1.isEmpty())
+                }
+                if (username1.isEmpty()) {
                     errorMessage += "\n- Username";
-                if (password1.isEmpty())
+                }
+                if (password1.length == 0) {
                     errorMessage += "\n- Password";
+                }
                 JOptionPane.showMessageDialog(null, errorMessage);
                 return;
             }
@@ -310,14 +325,14 @@ public class SignUp extends javax.swing.JFrame {
             pstmt = DatabaseManager.getConnection().prepareStatement(query);
             pstmt.setString(1, name1);
             pstmt.setString(2, username1);
-            pstmt.setString(3, password1);
+            String passwordString = new String(password1);
+            pstmt.setString(3, BCrypt.hashpw(passwordString, BCrypt.gensalt(12)));
 
             int rowsInserted = pstmt.executeUpdate();
             if (rowsInserted > 0) {
                 // Insertion successful
                 name.setText("");
                 username.setText("");
-                password.setText("");
                 JOptionPane.showMessageDialog(null, "Account successfully created!");
             }
         } catch (PasswordException ex) {
@@ -330,6 +345,15 @@ public class SignUp extends javax.swing.JFrame {
             // Handle other exceptions
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "An unexpected error occurred: " + ex.getMessage());
+        } finally {
+            if (password1 != null) {
+                for (int i = 0; i < password1.length; i++) {
+                    password1[i] = 0;
+                }
+            }
+            
+            password.setText("");
+
         }
 
     }// GEN-LAST:event_jButton1ActionPerformed
