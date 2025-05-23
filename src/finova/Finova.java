@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-package personalfinancemanagement;
+package finova;
 
 import Login.Login;
 
@@ -10,7 +10,7 @@ import Login.Login;
  *
  * @author hp
  */
-public class PersonalFinanceManagement {
+public class Finova {
 
     /**
      * @param args the command line arguments

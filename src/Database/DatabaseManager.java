@@ -11,9 +11,9 @@ package Database;
 import java.sql.*;
 
 public class DatabaseManager {
-    private static final String URL = "jdbc:mysql://localhost:3306/pfmsdemo";
-    private static final String USER = "Onkar";
-    private static final String PASSWORD = "Prem@1234";
+    private static final String URL = "jdbc:mysql://localhost:3306/finova_desktop";
+    private static final String USER = "user";
+    private static final String PASSWORD = "";
 
     private static Connection connection;
     private static Statement statement;

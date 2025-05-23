@@ -1,5 +1,5 @@
-create database pfmsdemo;
-use pfmsdemo;
+create database finova_desktop;
+use finova_desktop;
 
 CREATE TABLE user (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
