@@ -19,3 +19,4 @@ manifest.mf
 # Ignore build.xml file
 build.xml
 
+/dist/
