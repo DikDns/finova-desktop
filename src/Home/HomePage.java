@@ -25,11 +25,15 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.JTable;
 
+
 /**
  *
  * @author Lenovo
  */
 public class HomePage extends javax.swing.JFrame {
+    private javax.swing.JTextField balanceTextField;
+    private javax.swing.JTextField liabilitiesTextField;
+
 
     UserSession s;
 
@@ -54,6 +58,81 @@ public class HomePage extends javax.swing.JFrame {
         fillRemoveBudgetComboBox();
         populate_budget();
         updateProgressBar();
+        
+        expenseTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+        int selectedRow = expenseTable.getSelectedRow();
+        if (selectedRow != -1) {
+            // Ambil data dari tabel
+            String account = expenseTable.getValueAt(selectedRow, 0).toString();
+            String category = expenseTable.getValueAt(selectedRow, 1).toString();
+            String amount = expenseTable.getValueAt(selectedRow, 2).toString();
+            String date = expenseTable.getValueAt(selectedRow, 3).toString();
+            String remark = expenseTable.getValueAt(selectedRow, 4).toString();
+
+            // Isi data ke form
+            expenseAccountName.setSelectedItem(account);
+            expenseCategoryComboBox.setSelectedItem(category);
+            expenseAmount.setText(amount);
+            expenseRemark.setText(remark);
+
+            try {
+                java.util.Date parsedDate = new java.text.SimpleDateFormat("yyyy-MM-dd").parse(date);
+                expenseDate.setDate(parsedDate);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
+    }
+});
+        incomeTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+        int selectedRow = incomeTable.getSelectedRow();
+        if (selectedRow != -1) {
+            String account = incomeTable.getValueAt(selectedRow, 0).toString();
+            String date = incomeTable.getValueAt(selectedRow, 1).toString();
+            String source = incomeTable.getValueAt(selectedRow, 2).toString();
+            String amount = incomeTable.getValueAt(selectedRow, 3).toString();
+
+            incomeAccountName.setSelectedItem(account);
+            incomeSourceComboBox.setSelectedItem(source);
+            incomeAmount.setText(amount);
+
+            try {
+                java.util.Date parsedDate = new java.text.SimpleDateFormat("yyyy-MM-dd").parse(date);
+                incomeDate.setDate(parsedDate);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+});
+        accountTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+        int row = accountTable.getSelectedRow();
+        if (row != -1) {
+            jTextField1.setText(accountTable.getValueAt(row, 0).toString()); // hanya isi nama account
+        }
+    }
+});
+        budgetTable.addMouseListener(new java.awt.event.MouseAdapter() {
+    public void mouseClicked(java.awt.event.MouseEvent evt) {
+        int selectedRow = budgetTable.getSelectedRow();
+        if (selectedRow != -1) {
+            String category = budgetTable.getValueAt(selectedRow, 0).toString();
+            String amount = budgetTable.getValueAt(selectedRow, 1).toString();
+
+            BudgetExpenseCategoryComboBox.setSelectedItem(category);
+            BudgetAmount.setText(amount);
+        }
+    }
+});
+
+
+
+
+
     }
 
     /**
@@ -121,6 +200,7 @@ public class HomePage extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         createAccount = new javax.swing.JButton();
+        AccountUpdateButton = new javax.swing.JButton();
         Income_tab_scrollpane = new javax.swing.JScrollPane();
         Income_tab = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -141,6 +221,7 @@ public class HomePage extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         incomeTable = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
+        updateIncomeButton = new javax.swing.JButton();
         Expense_tab_scrollPane = new javax.swing.JScrollPane();
         Expense = new javax.swing.JPanel();
         Expense_Tab = new javax.swing.JPanel();
@@ -169,6 +250,7 @@ public class HomePage extends javax.swing.JFrame {
         expenseTable = new javax.swing.JTable();
         addExpenseCategory = new javax.swing.JButton();
         expenseAmount = new javax.swing.JTextField();
+        ExpenseUpdateButton = new javax.swing.JButton();
         Budget_tab_scrollpane = new javax.swing.JScrollPane();
         Budget_tab = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
@@ -194,6 +276,7 @@ public class HomePage extends javax.swing.JFrame {
         jLabel42 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         budgetTable = new javax.swing.JTable();
+        BudgetUpdateButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Finova Desktop");
@@ -332,6 +415,11 @@ public class HomePage extends javax.swing.JFrame {
                 nBudgetButtonMouseExited(evt);
             }
         });
+        nBudgetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nBudgetButtonActionPerformed(evt);
+            }
+        });
         jPanel1.add(nBudgetButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 0, 140, 60));
 
         refreshButton.setBackground(new java.awt.Color(0, 102, 102));
@@ -405,6 +493,11 @@ public class HomePage extends javax.swing.JFrame {
         jPanel8.setLayout(null);
 
         incomeLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        incomeLabel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                incomeLabelActionPerformed(evt);
+            }
+        });
         jPanel8.add(incomeLabel);
         incomeLabel.setBounds(30, 100, 130, 30);
 
@@ -575,6 +668,16 @@ public class HomePage extends javax.swing.JFrame {
         });
         Account_tab.add(createAccount, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 70, -1, 30));
 
+        AccountUpdateButton.setBackground(new java.awt.Color(55, 98, 217));
+        AccountUpdateButton.setForeground(new java.awt.Color(255, 255, 255));
+        AccountUpdateButton.setText("Update");
+        AccountUpdateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AccountUpdateButtonActionPerformed(evt);
+            }
+        });
+        Account_tab.add(AccountUpdateButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, -1, 30));
+
         jTabbedPane1.addTab("Accounts", Account_tab);
 
         Income_tab.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -636,7 +739,7 @@ public class HomePage extends javax.swing.JFrame {
                 addIncomeButtonActionPerformed(evt);
             }
         });
-        Income_tab.add(addIncomeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 350, 80, 30));
+        Income_tab.add(addIncomeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 340, 80, 30));
 
         resetIncomeButton.setBackground(new java.awt.Color(55, 98, 217));
         resetIncomeButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -646,7 +749,7 @@ public class HomePage extends javax.swing.JFrame {
                 resetIncomeButtonActionPerformed(evt);
             }
         });
-        Income_tab.add(resetIncomeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 350, 80, 30));
+        Income_tab.add(resetIncomeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 340, 80, 30));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setText("New Source");
@@ -682,6 +785,16 @@ public class HomePage extends javax.swing.JFrame {
         jLabel3.setText("Incomes");
         Income_tab.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 440, -1, -1));
 
+        updateIncomeButton.setBackground(new java.awt.Color(55, 98, 217));
+        updateIncomeButton.setForeground(new java.awt.Color(255, 255, 255));
+        updateIncomeButton.setText("Update");
+        updateIncomeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateIncomeButtonActionPerformed(evt);
+            }
+        });
+        Income_tab.add(updateIncomeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 340, -1, 30));
+
         Income_tab_scrollpane.setViewportView(Income_tab);
 
         jTabbedPane1.addTab("Income", Income_tab_scrollpane);
@@ -693,17 +806,18 @@ public class HomePage extends javax.swing.JFrame {
         jPanel10.setBackground(new java.awt.Color(204, 204, 204));
         jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel13.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
+        jLabel13.setFont(new java.awt.Font("Chivo", 1, 24)); // NOI18N
         jLabel13.setText("Add Expenses");
         jPanel10.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 170, 50));
         jPanel10.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, -30, -1, -1));
 
         Expense_Tab.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 860, 50));
 
-        jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
         jLabel15.setText("Account");
         Expense_Tab.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 70, -1, -1));
 
+        expenseAccountName.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         expenseAccountName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--select--" }));
         expenseAccountName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -715,15 +829,15 @@ public class HomePage extends javax.swing.JFrame {
         jPanel11.setBackground(new java.awt.Color(241, 241, 237));
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel17.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
         jLabel17.setText("Add Category");
         jPanel11.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 110, 30));
 
-        jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel18.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
         jLabel18.setText("Amount");
         jPanel11.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 0, 100, 30));
 
-        jLabel19.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel19.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
         jLabel19.setText("Remark");
         jPanel11.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 0, 80, 30));
 
@@ -744,12 +858,13 @@ public class HomePage extends javax.swing.JFrame {
 
         jPanel11.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 860, 30));
 
-        jLabel30.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel30.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
         jLabel30.setText("Category");
         jPanel11.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 110, 30));
 
         Expense_Tab.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 860, 30));
 
+        expenseCategoryComboBox.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         expenseCategoryComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--select--" }));
         expenseCategoryComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -761,6 +876,7 @@ public class HomePage extends javax.swing.JFrame {
         Expense_Tab.add(expenseRemark, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 180, 150, 30));
 
         ExpenseAddButton.setBackground(new java.awt.Color(55, 98, 217));
+        ExpenseAddButton.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         ExpenseAddButton.setForeground(new java.awt.Color(255, 255, 255));
         ExpenseAddButton.setText("Add");
         ExpenseAddButton.addActionListener(new java.awt.event.ActionListener() {
@@ -771,6 +887,7 @@ public class HomePage extends javax.swing.JFrame {
         Expense_Tab.add(ExpenseAddButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, 80, 30));
 
         ExpenseResetButton.setBackground(new java.awt.Color(55, 98, 217));
+        ExpenseResetButton.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         ExpenseResetButton.setForeground(new java.awt.Color(255, 255, 255));
         ExpenseResetButton.setText("Reset");
         ExpenseResetButton.addActionListener(new java.awt.event.ActionListener() {
@@ -778,13 +895,14 @@ public class HomePage extends javax.swing.JFrame {
                 ExpenseResetButtonActionPerformed(evt);
             }
         });
-        Expense_Tab.add(ExpenseResetButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 240, 80, 30));
+        Expense_Tab.add(ExpenseResetButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 80, 30));
         Expense_Tab.add(expenseDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 210, -1));
 
-        jLabel22.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel22.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
         jLabel22.setText("Date");
         Expense_Tab.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, 60, 20));
 
+        expenseTable.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         expenseTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -802,6 +920,7 @@ public class HomePage extends javax.swing.JFrame {
         Expense_Tab.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 760, 100));
 
         addExpenseCategory.setBackground(new java.awt.Color(55, 98, 217));
+        addExpenseCategory.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         addExpenseCategory.setForeground(new java.awt.Color(255, 255, 255));
         addExpenseCategory.setText("Add");
         addExpenseCategory.addActionListener(new java.awt.event.ActionListener() {
@@ -811,6 +930,17 @@ public class HomePage extends javax.swing.JFrame {
         });
         Expense_Tab.add(addExpenseCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 180, 70, 30));
         Expense_Tab.add(expenseAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 180, 150, 30));
+
+        ExpenseUpdateButton.setBackground(new java.awt.Color(55, 98, 217));
+        ExpenseUpdateButton.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
+        ExpenseUpdateButton.setForeground(new java.awt.Color(255, 255, 255));
+        ExpenseUpdateButton.setText("Update");
+        ExpenseUpdateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExpenseUpdateButtonActionPerformed(evt);
+            }
+        });
+        Expense_Tab.add(ExpenseUpdateButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 240, -1, 30));
 
         Expense.add(Expense_Tab, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 450));
 
@@ -929,6 +1059,16 @@ public class HomePage extends javax.swing.JFrame {
 
         Budget_tab.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, 770, 140));
 
+        BudgetUpdateButton.setBackground(new java.awt.Color(55, 98, 217));
+        BudgetUpdateButton.setForeground(new java.awt.Color(255, 255, 255));
+        BudgetUpdateButton.setText("Update");
+        BudgetUpdateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BudgetUpdateButtonActionPerformed(evt);
+            }
+        });
+        Budget_tab.add(BudgetUpdateButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 170, -1, 30));
+
         Budget_tab_scrollpane.setViewportView(Budget_tab);
 
         jTabbedPane1.addTab("Budget", Budget_tab_scrollpane);
@@ -947,6 +1087,210 @@ public class HomePage extends javax.swing.JFrame {
             ex.printStackTrace();
             // Handle the exception appropriately
         }    }//GEN-LAST:event_printButtonActionPerformed
+
+    private void incomeLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_incomeLabelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_incomeLabelActionPerformed
+
+    private void nBudgetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nBudgetButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nBudgetButtonActionPerformed
+
+    private void ExpenseUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExpenseUpdateButtonActionPerformed
+        // TODO add your handling code here:
+    int selectedRow = expenseTable.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(null, "Silakan pilih baris data yang ingin diupdate.");
+        return;
+    }
+
+    String account = (String) expenseAccountName.getSelectedItem();
+    String category = (String) expenseCategoryComboBox.getSelectedItem();
+    String amountText = expenseAmount.getText();
+    java.util.Date date = expenseDate.getDate();
+    String remark = expenseRemark.getText();
+
+    if (account.equals("--select--") || category.equals("--select--") || amountText.isEmpty() || date == null) {
+        JOptionPane.showMessageDialog(null, "Mohon lengkapi semua data sebelum update.");
+        return;
+    }
+
+    try {
+        double amount = Double.parseDouble(amountText);
+        String formattedDate = new java.text.SimpleDateFormat("yyyy-MM-dd").format(date);
+
+        // Asumsi: primary key transaksi adalah kombinasi yang unik dari data tabel (atau Anda bisa tambahkan kolom id_transaksi dan simpan ID-nya)
+        String query = "UPDATE expense SET amount = ?, expense_date = ?, remark = ? " +
+                       "WHERE account_id = (SELECT account_id FROM account WHERE account_type = ? AND user_id = ?) " +
+                       "AND expense_category = (SELECT expense_category FROM expense_category WHERE category_name = ? AND user_id = ?) " +
+                       "AND expense_date = ?";
+
+        DatabaseManager.connect();
+        PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(query);
+        pstmt.setDouble(1, amount);
+        pstmt.setString(2, formattedDate);
+        pstmt.setString(3, remark);
+        pstmt.setString(4, account);
+        pstmt.setInt(5, UserSession.userId);
+        pstmt.setString(6, category);
+        pstmt.setInt(7, UserSession.userId);
+        pstmt.setString(8, formattedDate); // WHERE clause: original date (as key)
+
+        int updated = pstmt.executeUpdate();
+        if (updated > 0) {
+            JOptionPane.showMessageDialog(null, "Data berhasil diupdate.");
+            updateComponents(); // refresh table
+        } else {
+            JOptionPane.showMessageDialog(null, "Gagal update data.");
+        }
+
+        pstmt.close();
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Format angka tidak valid.");
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error database: " + e.getMessage());
+    }
+
+    }//GEN-LAST:event_ExpenseUpdateButtonActionPerformed
+
+    private void updateIncomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateIncomeButtonActionPerformed
+        // TODO add your handling code here:
+    int selectedRow = incomeTable.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(null, "Silakan pilih data income yang ingin diupdate.");
+        return;
+    }
+
+    String account = (String) incomeAccountName.getSelectedItem();
+    String source = (String) incomeSourceComboBox.getSelectedItem();
+    String amountText = incomeAmount.getText();
+    java.util.Date date = incomeDate.getDate();
+
+    if (account.equals("--select--") || source.equals("--select--") || amountText.isEmpty() || date == null) {
+        JOptionPane.showMessageDialog(null, "Mohon lengkapi semua data sebelum update.");
+        return;
+    }
+
+    try {
+        double amount = Double.parseDouble(amountText);
+        String formattedDate = new java.text.SimpleDateFormat("yyyy-MM-dd").format(date);
+
+        String query = "UPDATE income SET amount = ?, income_date = ?, income_source = ? " +
+                       "WHERE account_id = (SELECT account_id FROM account WHERE account_type = ? AND user_id = ?) " +
+                       "AND income_date = ?";
+
+        DatabaseManager.connect();
+        PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(query);
+        pstmt.setDouble(1, amount);
+        pstmt.setString(2, formattedDate);
+        pstmt.setString(3, source);
+        pstmt.setString(4, account);
+        pstmt.setInt(5, UserSession.userId);
+        pstmt.setString(6, formattedDate); // tanggal sebelumnya sebagai identifikasi
+
+        int updated = pstmt.executeUpdate();
+        if (updated > 0) {
+            JOptionPane.showMessageDialog(null, "Data income berhasil diupdate.");
+            updateComponents(); // refresh tampilan tabel
+        } else {
+            JOptionPane.showMessageDialog(null, "Gagal update data income.");
+        }
+
+        pstmt.close();
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Format angka tidak valid.");
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error database: " + e.getMessage());
+    }
+    }//GEN-LAST:event_updateIncomeButtonActionPerformed
+
+    private void AccountUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AccountUpdateButtonActionPerformed
+        // TODO add your handling code here:
+    String newAccountName = jTextField1.getText().trim();
+
+    if (newAccountName.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Nama account tidak boleh kosong.");
+        return;
+    }
+
+    try {
+        int selectedRow = accountTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null, "Pilih account dari tabel terlebih dahulu.");
+            return;
+        }
+
+        String oldAccountName = accountTable.getValueAt(selectedRow, 0).toString(); // nama lama
+        int userId = UserSession.userId;
+
+        DatabaseManager.connect();
+        String sql = "UPDATE account SET account_type = ? WHERE user_id = ? AND account_type = ?";
+        PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(sql);
+        pstmt.setString(1, newAccountName);
+        pstmt.setInt(2, userId);
+        pstmt.setString(3, oldAccountName);
+
+        int result = pstmt.executeUpdate();
+        if (result > 0) {
+            JOptionPane.showMessageDialog(null, "Nama account berhasil diperbarui.");
+            updateComponents(); // refresh table
+        } else {
+            JOptionPane.showMessageDialog(null, "Gagal memperbarui nama account.");
+        }
+
+        pstmt.close();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Kesalahan database: " + e.getMessage());
+    }
+        
+    }//GEN-LAST:event_AccountUpdateButtonActionPerformed
+
+    private void BudgetUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BudgetUpdateButtonActionPerformed
+        // TODO add your handling code here:
+    int selectedRow = budgetTable.getSelectedRow();
+
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(null, "Silakan pilih baris budget yang ingin diupdate.");
+        return;
+    }
+
+    String oldCategory = budgetTable.getValueAt(selectedRow, 0).toString(); // kategori lama (dari tabel)
+    String newCategory = BudgetExpenseCategoryComboBox.getSelectedItem().toString(); // kategori baru
+    String amountText = BudgetAmount.getText().trim();
+
+    if (newCategory.equals("--select--") || amountText.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Mohon lengkapi semua data sebelum update.");
+        return;
+    }
+
+    try {
+        double amount = Double.parseDouble(amountText);
+
+        DatabaseManager.connect();
+        String query = "UPDATE budget SET expense_category = ?, amount = ? WHERE user_id = ? AND expense_category = ?";
+        PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(query);
+        pstmt.setString(1, newCategory);
+        pstmt.setDouble(2, amount);
+        pstmt.setInt(3, UserSession.userId);
+        pstmt.setString(4, oldCategory);
+
+        int rows = pstmt.executeUpdate();
+        if (rows > 0) {
+            JOptionPane.showMessageDialog(null, "Budget berhasil diperbarui.");
+            BudgetAmount.setText("");
+            BudgetExpenseCategoryComboBox.setSelectedIndex(0);
+            updateComponents(); // refresh table
+        } else {
+            JOptionPane.showMessageDialog(null, "Gagal memperbarui budget.");
+        }
+
+        pstmt.close();
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Masukkan jumlah anggaran yang valid.");
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Terjadi kesalahan database: " + e.getMessage());
+    }
+    }//GEN-LAST:event_BudgetUpdateButtonActionPerformed
 
     private void balanceLabelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_balanceLabelActionPerformed
         // TODO add your handling code here:
@@ -2146,15 +2490,18 @@ public class HomePage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AccountUpdateButton;
     private javax.swing.JPanel Account_tab;
     private javax.swing.JTextField BudgetAmount;
     private javax.swing.JComboBox<String> BudgetExpenseCategoryComboBox;
     private javax.swing.JTextField BudgetExpenseCategoryTextField;
+    private javax.swing.JButton BudgetUpdateButton;
     private javax.swing.JPanel Budget_tab;
     private javax.swing.JScrollPane Budget_tab_scrollpane;
     private javax.swing.JPanel Expense;
     private javax.swing.JButton ExpenseAddButton;
     private javax.swing.JButton ExpenseResetButton;
+    private javax.swing.JButton ExpenseUpdateButton;
     private javax.swing.JPanel Expense_Tab;
     private javax.swing.JScrollPane Expense_tab_scrollPane;
     private javax.swing.JPanel Home_tab;
@@ -2269,5 +2616,6 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JButton resetIncomeButton;
     private javax.swing.JTextField targetAmountTextField;
     private javax.swing.JTable transactionTable;
+    private javax.swing.JButton updateIncomeButton;
     // End of variables declaration//GEN-END:variables
 }
