@@ -188,6 +188,7 @@ public class HomePage extends javax.swing.JFrame {
         jProgressBar1 = new javax.swing.JProgressBar();
         progressLabel = new javax.swing.JLabel();
         printButton = new javax.swing.JButton();
+        jLabel43 = new javax.swing.JLabel();
         Account_tab = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -448,6 +449,7 @@ public class HomePage extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 860, 60));
 
         jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jTabbedPane1.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
 
         Home_tab.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -531,7 +533,7 @@ public class HomePage extends javax.swing.JFrame {
         Home_tab.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 20, 190, 150));
 
         jButton2.setBackground(new java.awt.Color(55, 98, 217));
-        jButton2.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Chivo", 1, 12)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Generate Chart");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -586,6 +588,10 @@ public class HomePage extends javax.swing.JFrame {
             }
         });
         Home_tab.add(printButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 180, 140, 40));
+
+        jLabel43.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
+        jLabel43.setText("(Income is the money you earn and Expenses are the money you spend.)");
+        Home_tab.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, -1, -1));
 
         Home_tab_scrollpane.setViewportView(Home_tab);
 
@@ -953,37 +959,45 @@ public class HomePage extends javax.swing.JFrame {
         jPanel14.setBackground(new java.awt.Color(204, 204, 204));
         jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel32.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
+        jLabel32.setFont(new java.awt.Font("Chivo", 1, 24)); // NOI18N
         jLabel32.setText("Add Budget");
         jPanel14.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 170, 50));
         jPanel14.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, -30, -1, -1));
 
         Budget_tab.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 860, 50));
 
+        jLabel33.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
         jLabel33.setText("A budget helps users allocate their income to different categories for effective financial management and goal achievement.");
         Budget_tab.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, -1));
 
+        BudgetExpenseCategoryComboBox.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
         BudgetExpenseCategoryComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--select--", " " }));
         Budget_tab.add(BudgetExpenseCategoryComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 140, 30));
 
+        removeBudgetComboBox.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
         removeBudgetComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--select--" }));
         Budget_tab.add(removeBudgetComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, 140, 30));
+
+        BudgetAmount.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
         Budget_tab.add(BudgetAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 170, 140, 30));
 
-        jLabel34.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel34.setFont(new java.awt.Font("Chivo", 1, 14)); // NOI18N
         jLabel34.setText("Allocate Budget");
         Budget_tab.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
 
-        jLabel35.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel35.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
         jLabel35.setText("Expense Category");
         Budget_tab.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, 30));
 
-        jLabel36.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel36.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
         jLabel36.setText("Add New Category");
         Budget_tab.add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, 140, 30));
+
+        BudgetExpenseCategoryTextField.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
         Budget_tab.add(BudgetExpenseCategoryTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 130, 30));
 
         addBudgetExpenseCategoryButton.setBackground(new java.awt.Color(55, 98, 217));
+        addBudgetExpenseCategoryButton.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
         addBudgetExpenseCategoryButton.setForeground(new java.awt.Color(255, 255, 255));
         addBudgetExpenseCategoryButton.setText("Add");
         addBudgetExpenseCategoryButton.addActionListener(new java.awt.event.ActionListener() {
@@ -993,11 +1007,12 @@ public class HomePage extends javax.swing.JFrame {
         });
         Budget_tab.add(addBudgetExpenseCategoryButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 170, 70, 30));
 
-        jLabel37.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel37.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
         jLabel37.setText("Remove Budget");
         Budget_tab.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, -1, -1));
 
         removeBudgetButton.setBackground(new java.awt.Color(55, 98, 217));
+        removeBudgetButton.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
         removeBudgetButton.setForeground(new java.awt.Color(255, 255, 255));
         removeBudgetButton.setText("Remove");
         removeBudgetButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1007,12 +1022,12 @@ public class HomePage extends javax.swing.JFrame {
         });
         Budget_tab.add(removeBudgetButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 350, -1, 30));
 
-        jLabel38.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel38.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
         jLabel38.setText("Amount");
         Budget_tab.add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 140, -1, -1));
 
         addBudget.setBackground(new java.awt.Color(55, 98, 217));
-        addBudget.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        addBudget.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
         addBudget.setForeground(new java.awt.Color(255, 255, 255));
         addBudget.setText("Allocate Budget");
         addBudget.addActionListener(new java.awt.event.ActionListener() {
@@ -1021,14 +1036,17 @@ public class HomePage extends javax.swing.JFrame {
             }
         });
         Budget_tab.add(addBudget, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 170, -1, 30));
+
+        targetAmountTextField.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
         Budget_tab.add(targetAmountTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 140, 30));
 
-        jLabel39.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel39.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
         jLabel39.setText("Target Amount");
         Budget_tab.add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, -1));
 
+        jLabel40.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
         jLabel40.setText("(amount which you are targeting to save in this month)");
-        Budget_tab.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, -1, 20));
+        Budget_tab.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, -1, 20));
 
         addTargetAmountButton.setBackground(new java.awt.Color(55, 98, 217));
         addTargetAmountButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -1040,7 +1058,7 @@ public class HomePage extends javax.swing.JFrame {
         });
         Budget_tab.add(addTargetAmountButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 260, -1, 30));
 
-        jLabel42.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel42.setFont(new java.awt.Font("Chivo", 1, 14)); // NOI18N
         jLabel42.setText("Budget's");
         Budget_tab.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, -1, -1));
 
@@ -2575,6 +2593,7 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
