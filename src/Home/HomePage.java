@@ -19,6 +19,7 @@ import Database.DatabaseManager;
 import java.awt.event.ActionEvent;
 import java.util.Date;
 import Chart.IncomeExpenseChart;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.print.PrinterException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -28,17 +29,17 @@ import javax.swing.ImageIcon;
 
 import javax.swing.JTable;
 
-
 /**
  *
  * @author Lenovo
  */
 public class HomePage extends javax.swing.JFrame {
+
     private javax.swing.JTextField balanceTextField;
     private javax.swing.JTextField liabilitiesTextField;
 
     UserSession s;
-    
+
     ImageIcon logo = new ImageIcon(this.getClass().getResource("/Icon/finova-logo.png"));
 
     /**
@@ -47,8 +48,13 @@ public class HomePage extends javax.swing.JFrame {
     public HomePage() {
         this.s = new UserSession();
         initComponents();
-        updateComponents();
+        refreshButton.setIcon(new FlatSVGIcon("Icon/refresh.svg", refreshButton.getWidth(), refreshButton.getHeight()));
+        jLabel20.setIcon(new FlatSVGIcon("Icon/empty-wallet.svg", refreshButton.getWidth(), refreshButton.getHeight()));
+        jLabel16.setIcon(new FlatSVGIcon("Icon/presention-chart.svg", refreshButton.getWidth(), refreshButton.getHeight()));
+        jLabel14.setIcon(new FlatSVGIcon("Icon/money-recive.svg", refreshButton.getWidth(), refreshButton.getHeight()));
+        jLabel4.setIcon(new FlatSVGIcon("Icon/money-send.svg", refreshButton.getWidth(), refreshButton.getHeight()));
         setIconImage(logo.getImage());
+        updateComponents();
     }
 
     private void updateComponents() {
@@ -65,78 +71,74 @@ public class HomePage extends javax.swing.JFrame {
         updateProgressBar();
 
         expenseTable.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-        int selectedRow = expenseTable.getSelectedRow();
-        if (selectedRow != -1) {
-            // Ambil data dari tabel
-            String account = expenseTable.getValueAt(selectedRow, 0).toString();
-            String category = expenseTable.getValueAt(selectedRow, 1).toString();
-            String amount = expenseTable.getValueAt(selectedRow, 2).toString();
-            String date = expenseTable.getValueAt(selectedRow, 3).toString();
-            String remark = expenseTable.getValueAt(selectedRow, 4).toString();
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int selectedRow = expenseTable.getSelectedRow();
+                if (selectedRow != -1) {
+                    // Ambil data dari tabel
+                    String account = expenseTable.getValueAt(selectedRow, 0).toString();
+                    String category = expenseTable.getValueAt(selectedRow, 1).toString();
+                    String amount = expenseTable.getValueAt(selectedRow, 2).toString();
+                    String date = expenseTable.getValueAt(selectedRow, 3).toString();
+                    String remark = expenseTable.getValueAt(selectedRow, 4).toString();
 
-            // Isi data ke form
-            expenseAccountName.setSelectedItem(account);
-            expenseCategoryComboBox.setSelectedItem(category);
-            expenseAmount.setText(amount);
-            expenseRemark.setText(remark);
+                    // Isi data ke form
+                    expenseAccountName.setSelectedItem(account);
+                    expenseCategoryComboBox.setSelectedItem(category);
+                    expenseAmount.setText(amount);
+                    expenseRemark.setText(remark);
 
-            try {
-                java.util.Date parsedDate = new java.text.SimpleDateFormat("yyyy-MM-dd").parse(date);
-                expenseDate.setDate(parsedDate);
-            } catch (Exception e) {
-                e.printStackTrace();
+                    try {
+                        java.util.Date parsedDate = new java.text.SimpleDateFormat("yyyy-MM-dd").parse(date);
+                        expenseDate.setDate(parsedDate);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
             }
-        }
-
-    }
-});
+        });
         incomeTable.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-        int selectedRow = incomeTable.getSelectedRow();
-        if (selectedRow != -1) {
-            String account = incomeTable.getValueAt(selectedRow, 0).toString();
-            String date = incomeTable.getValueAt(selectedRow, 1).toString();
-            String source = incomeTable.getValueAt(selectedRow, 2).toString();
-            String amount = incomeTable.getValueAt(selectedRow, 3).toString();
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int selectedRow = incomeTable.getSelectedRow();
+                if (selectedRow != -1) {
+                    String account = incomeTable.getValueAt(selectedRow, 0).toString();
+                    String date = incomeTable.getValueAt(selectedRow, 1).toString();
+                    String source = incomeTable.getValueAt(selectedRow, 2).toString();
+                    String amount = incomeTable.getValueAt(selectedRow, 3).toString();
 
-            incomeAccountName.setSelectedItem(account);
-            incomeSourceComboBox.setSelectedItem(source);
-            incomeAmount.setText(amount);
+                    incomeAccountName.setSelectedItem(account);
+                    incomeSourceComboBox.setSelectedItem(source);
+                    incomeAmount.setText(amount);
 
-            try {
-                java.util.Date parsedDate = new java.text.SimpleDateFormat("yyyy-MM-dd").parse(date);
-                incomeDate.setDate(parsedDate);
-            } catch (Exception e) {
-                e.printStackTrace();
+                    try {
+                        java.util.Date parsedDate = new java.text.SimpleDateFormat("yyyy-MM-dd").parse(date);
+                        incomeDate.setDate(parsedDate);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-        }
-    }
-});
+        });
         accountTable.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-        int row = accountTable.getSelectedRow();
-        if (row != -1) {
-            jTextField1.setText(accountTable.getValueAt(row, 0).toString()); // hanya isi nama account
-        }
-    }
-});
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = accountTable.getSelectedRow();
+                if (row != -1) {
+                    jTextField1.setText(accountTable.getValueAt(row, 0).toString()); // hanya isi nama account
+                }
+            }
+        });
         budgetTable.addMouseListener(new java.awt.event.MouseAdapter() {
-    public void mouseClicked(java.awt.event.MouseEvent evt) {
-        int selectedRow = budgetTable.getSelectedRow();
-        if (selectedRow != -1) {
-            String category = budgetTable.getValueAt(selectedRow, 0).toString();
-            String amount = budgetTable.getValueAt(selectedRow, 1).toString();
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int selectedRow = budgetTable.getSelectedRow();
+                if (selectedRow != -1) {
+                    String category = budgetTable.getValueAt(selectedRow, 0).toString();
+                    String amount = budgetTable.getValueAt(selectedRow, 1).toString();
 
-            BudgetExpenseCategoryComboBox.setSelectedItem(category);
-            BudgetAmount.setText(amount);
-        }
-    }
-});
-
-
-
-
+                    BudgetExpenseCategoryComboBox.setSelectedItem(category);
+                    BudgetAmount.setText(amount);
+                }
+            }
+        });
 
     }
 
@@ -293,6 +295,7 @@ public class HomePage extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jToggleButton2.setBackground(new java.awt.Color(0, 102, 102));
+        jToggleButton2.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jToggleButton2.setForeground(new java.awt.Color(255, 255, 255));
         jToggleButton2.setText("Home");
         jToggleButton2.setBorder(null);
@@ -317,6 +320,7 @@ public class HomePage extends javax.swing.JFrame {
         jPanel1.add(jToggleButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 140, 60));
 
         jToggleButton3.setBackground(new java.awt.Color(0, 102, 102));
+        jToggleButton3.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jToggleButton3.setForeground(new java.awt.Color(255, 255, 255));
         jToggleButton3.setText("Accounts");
         jToggleButton3.setBorder(null);
@@ -343,6 +347,7 @@ public class HomePage extends javax.swing.JFrame {
         jPanel1.add(jToggleButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 0, 140, 60));
 
         jToggleButton4.setBackground(new java.awt.Color(0, 102, 102));
+        jToggleButton4.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jToggleButton4.setForeground(new java.awt.Color(255, 255, 255));
         jToggleButton4.setText("Incomes");
         jToggleButton4.setBorder(null);
@@ -364,6 +369,7 @@ public class HomePage extends javax.swing.JFrame {
         jPanel1.add(jToggleButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 140, 60));
 
         jToggleButton5.setBackground(new java.awt.Color(0, 102, 102));
+        jToggleButton5.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jToggleButton5.setForeground(new java.awt.Color(255, 255, 255));
         jToggleButton5.setText("Expenses");
         jToggleButton5.setBorder(null);
@@ -387,6 +393,7 @@ public class HomePage extends javax.swing.JFrame {
         jPanel1.add(jToggleButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 0, 140, 60));
 
         jButton1.setBackground(new java.awt.Color(0, 102, 102));
+        jButton1.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Logout");
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -406,6 +413,7 @@ public class HomePage extends javax.swing.JFrame {
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 10, 80, 40));
 
         nBudgetButton.setBackground(new java.awt.Color(0, 102, 102));
+        nBudgetButton.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         nBudgetButton.setForeground(new java.awt.Color(255, 255, 255));
         nBudgetButton.setText("Budget");
         nBudgetButton.setBorder(null);
@@ -430,7 +438,6 @@ public class HomePage extends javax.swing.JFrame {
 
         refreshButton.setBackground(new java.awt.Color(0, 102, 102));
         refreshButton.setForeground(new java.awt.Color(255, 255, 255));
-        refreshButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/refresh_17814.png"))); // NOI18N
         refreshButton.setBorder(null);
         refreshButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         refreshButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -449,7 +456,7 @@ public class HomePage extends javax.swing.JFrame {
                 refreshButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(refreshButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 10, 30, 40));
+        jPanel1.add(refreshButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 10, 40, 40));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 860, 60));
 
@@ -458,10 +465,11 @@ public class HomePage extends javax.swing.JFrame {
 
         Home_tab.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel7.setBackground(new java.awt.Color(234, 216, 192));
+        jPanel7.setBackground(new java.awt.Color(225, 225, 225));
         jPanel7.setLayout(null);
 
-        balanceLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        balanceLabel.setEditable(false);
+        balanceLabel.setFont(new java.awt.Font("Spectral", 1, 14)); // NOI18N
         balanceLabel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 balanceLabelActionPerformed(evt);
@@ -474,33 +482,37 @@ public class HomePage extends javax.swing.JFrame {
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Current Balance");
         jPanel7.add(jLabel9);
-        jLabel9.setBounds(10, 60, 170, 40);
+        jLabel9.setBounds(0, 60, 190, 40);
 
-        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/balance.png"))); // NOI18N
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jPanel7.add(jLabel20);
         jLabel20.setBounds(60, 10, 70, 60);
 
         Home_tab.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 190, 150));
 
-        jPanel6.setBackground(new java.awt.Color(253, 153, 153));
+        jPanel6.setBackground(new java.awt.Color(225, 225, 225));
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        liabilitiesLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        liabilitiesLabel.setEditable(false);
+        liabilitiesLabel.setFont(new java.awt.Font("Spectral", 1, 14)); // NOI18N
         jPanel6.add(liabilitiesLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 140, 30));
 
-        jLabel10.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Chivo", 1, 18)); // NOI18N
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Liabilites");
-        jPanel6.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, -1, -1));
+        jPanel6.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 190, -1));
 
-        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/liabilites.png"))); // NOI18N
-        jPanel6.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 70, 60));
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel16.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel6.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 70, 60));
 
         Home_tab.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 20, 190, 150));
 
-        jPanel8.setBackground(new java.awt.Color(188, 127, 205));
+        jPanel8.setBackground(new java.awt.Color(225, 225, 225));
         jPanel8.setLayout(null);
 
-        incomeLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        incomeLabel.setEditable(false);
+        incomeLabel.setFont(new java.awt.Font("Spectral", 1, 14)); // NOI18N
         incomeLabel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 incomeLabelActionPerformed(evt);
@@ -509,32 +521,37 @@ public class HomePage extends javax.swing.JFrame {
         jPanel8.add(incomeLabel);
         incomeLabel.setBounds(30, 100, 130, 30);
 
-        jLabel11.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Chivo", 1, 18)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel11.setText("Month's Income");
         jPanel8.add(jLabel11);
-        jLabel11.setBounds(30, 60, 140, 40);
+        jLabel11.setBounds(0, 60, 190, 40);
 
-        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/income.png"))); // NOI18N
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel8.add(jLabel14);
-        jLabel14.setBounds(60, 10, 80, 60);
+        jLabel14.setBounds(60, 10, 70, 60);
 
         Home_tab.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 20, 190, 150));
 
-        jPanel9.setBackground(new java.awt.Color(116, 140, 241));
+        jPanel9.setBackground(new java.awt.Color(225, 225, 225));
         jPanel9.setLayout(null);
 
-        expenseLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        expenseLabel.setEditable(false);
+        expenseLabel.setFont(new java.awt.Font("Spectral", 1, 14)); // NOI18N
         jPanel9.add(expenseLabel);
         expenseLabel.setBounds(30, 100, 130, 30);
 
-        jLabel12.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Chivo", 1, 18)); // NOI18N
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setText("Month's Expense");
         jPanel9.add(jLabel12);
-        jLabel12.setBounds(20, 60, 160, 40);
+        jLabel12.setBounds(0, 60, 190, 40);
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/expense.png"))); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel9.add(jLabel4);
-        jLabel4.setBounds(60, 20, 70, 50);
+        jLabel4.setBounds(60, 10, 70, 60);
 
         Home_tab.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 20, 190, 150));
 
@@ -549,10 +566,11 @@ public class HomePage extends javax.swing.JFrame {
         });
         Home_tab.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 140, 40));
 
-        jLabel31.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel31.setFont(new java.awt.Font("Chivo", 1, 16)); // NOI18N
         jLabel31.setText("Transactions");
         Home_tab.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 110, 30));
 
+        transactionTable.setFont(new java.awt.Font("Spectral", 0, 12)); // NOI18N
         transactionTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -564,28 +582,30 @@ public class HomePage extends javax.swing.JFrame {
                 "Transaction Id", "Account Id", "Transaction Type", "Amount", "Statement", "Date"
             }
         ));
+        transactionTable.setEnabled(false);
         jScrollPane3.setViewportView(transactionTable);
 
         Home_tab.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 790, 150));
 
-        jPanel2.setBackground(new java.awt.Color(214, 214, 214));
+        jPanel2.setBackground(new java.awt.Color(225, 225, 225));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel41.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel41.setFont(new java.awt.Font("Spectral", 0, 14)); // NOI18N
         jLabel41.setText("Monthly Savings:");
         jPanel2.add(jLabel41, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 20));
 
+        jProgressBar1.setFont(new java.awt.Font("Spectral", 0, 10)); // NOI18N
         jProgressBar1.setForeground(new java.awt.Color(33, 225, 65));
         jPanel2.add(jProgressBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 180, 20));
 
-        progressLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        progressLabel.setFont(new java.awt.Font("Spectral", 0, 14)); // NOI18N
         progressLabel.setText("No Data Available");
         jPanel2.add(progressLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, 130, -1));
 
         Home_tab.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 180, 450, 40));
 
         printButton.setBackground(new java.awt.Color(55, 98, 217));
-        printButton.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
+        printButton.setFont(new java.awt.Font("Chivo", 1, 12)); // NOI18N
         printButton.setForeground(new java.awt.Color(255, 255, 255));
         printButton.setText("Print Table");
         printButton.addActionListener(new java.awt.event.ActionListener() {
@@ -595,7 +615,7 @@ public class HomePage extends javax.swing.JFrame {
         });
         Home_tab.add(printButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 180, 140, 40));
 
-        jLabel43.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
+        jLabel43.setFont(new java.awt.Font("Spectral", 0, 12)); // NOI18N
         jLabel43.setText("(Income is the money you earn and Expenses are the money you spend.)");
         Home_tab.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, -1, -1));
 
@@ -610,7 +630,7 @@ public class HomePage extends javax.swing.JFrame {
         Account_tab.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 30, -1, 30));
 
         accountTable.setAutoCreateRowSorter(true);
-        accountTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        accountTable.setFont(new java.awt.Font("Spectral", 0, 14)); // NOI18N
         accountTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -623,8 +643,6 @@ public class HomePage extends javax.swing.JFrame {
         ));
         accountTable.setGridColor(new java.awt.Color(204, 204, 204));
         accountTable.setRowHeight(24);
-        accountTable.setRowSelectionAllowed(false);
-        accountTable.setSelectionBackground(new java.awt.Color(255, 255, 255));
         accountTable.setShowGrid(true);
         accountTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(accountTable);
@@ -1122,198 +1140,198 @@ public class HomePage extends javax.swing.JFrame {
 
     private void ExpenseUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExpenseUpdateButtonActionPerformed
         // TODO add your handling code here:
-    int selectedRow = expenseTable.getSelectedRow();
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(null, "Silakan pilih baris data yang ingin diupdate.");
-        return;
-    }
-
-    String account = (String) expenseAccountName.getSelectedItem();
-    String category = (String) expenseCategoryComboBox.getSelectedItem();
-    String amountText = expenseAmount.getText();
-    java.util.Date date = expenseDate.getDate();
-    String remark = expenseRemark.getText();
-
-    if (account.equals("--select--") || category.equals("--select--") || amountText.isEmpty() || date == null) {
-        JOptionPane.showMessageDialog(null, "Mohon lengkapi semua data sebelum update.");
-        return;
-    }
-
-    try {
-        double amount = Double.parseDouble(amountText);
-        String formattedDate = new java.text.SimpleDateFormat("yyyy-MM-dd").format(date);
-
-        // Asumsi: primary key transaksi adalah kombinasi yang unik dari data tabel (atau Anda bisa tambahkan kolom id_transaksi dan simpan ID-nya)
-        String query = "UPDATE expense SET amount = ?, expense_date = ?, remark = ? " +
-                       "WHERE account_id = (SELECT account_id FROM account WHERE account_type = ? AND user_id = ?) " +
-                       "AND expense_category = (SELECT expense_category FROM expense_category WHERE category_name = ? AND user_id = ?) " +
-                       "AND expense_date = ?";
-
-        DatabaseManager.connect();
-        PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(query);
-        pstmt.setDouble(1, amount);
-        pstmt.setString(2, formattedDate);
-        pstmt.setString(3, remark);
-        pstmt.setString(4, account);
-        pstmt.setInt(5, UserSession.userId);
-        pstmt.setString(6, category);
-        pstmt.setInt(7, UserSession.userId);
-        pstmt.setString(8, formattedDate); // WHERE clause: original date (as key)
-
-        int updated = pstmt.executeUpdate();
-        if (updated > 0) {
-            JOptionPane.showMessageDialog(null, "Data berhasil diupdate.");
-            updateComponents(); // refresh table
-        } else {
-            JOptionPane.showMessageDialog(null, "Gagal update data.");
+        int selectedRow = expenseTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null, "Silakan pilih baris data yang ingin diupdate.");
+            return;
         }
 
-        pstmt.close();
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(null, "Format angka tidak valid.");
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Error database: " + e.getMessage());
-    }
+        String account = (String) expenseAccountName.getSelectedItem();
+        String category = (String) expenseCategoryComboBox.getSelectedItem();
+        String amountText = expenseAmount.getText();
+        java.util.Date date = expenseDate.getDate();
+        String remark = expenseRemark.getText();
+
+        if (account.equals("--select--") || category.equals("--select--") || amountText.isEmpty() || date == null) {
+            JOptionPane.showMessageDialog(null, "Mohon lengkapi semua data sebelum update.");
+            return;
+        }
+
+        try {
+            double amount = Double.parseDouble(amountText);
+            String formattedDate = new java.text.SimpleDateFormat("yyyy-MM-dd").format(date);
+
+            // Asumsi: primary key transaksi adalah kombinasi yang unik dari data tabel (atau Anda bisa tambahkan kolom id_transaksi dan simpan ID-nya)
+            String query = "UPDATE expense SET amount = ?, expense_date = ?, remark = ? "
+                    + "WHERE account_id = (SELECT account_id FROM account WHERE account_type = ? AND user_id = ?) "
+                    + "AND expense_category = (SELECT expense_category FROM expense_category WHERE category_name = ? AND user_id = ?) "
+                    + "AND expense_date = ?";
+
+            DatabaseManager.connect();
+            PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(query);
+            pstmt.setDouble(1, amount);
+            pstmt.setString(2, formattedDate);
+            pstmt.setString(3, remark);
+            pstmt.setString(4, account);
+            pstmt.setInt(5, UserSession.userId);
+            pstmt.setString(6, category);
+            pstmt.setInt(7, UserSession.userId);
+            pstmt.setString(8, formattedDate); // WHERE clause: original date (as key)
+
+            int updated = pstmt.executeUpdate();
+            if (updated > 0) {
+                JOptionPane.showMessageDialog(null, "Data berhasil diupdate.");
+                updateComponents(); // refresh table
+            } else {
+                JOptionPane.showMessageDialog(null, "Gagal update data.");
+            }
+
+            pstmt.close();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Format angka tidak valid.");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error database: " + e.getMessage());
+        }
 
     }//GEN-LAST:event_ExpenseUpdateButtonActionPerformed
 
     private void updateIncomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateIncomeButtonActionPerformed
         // TODO add your handling code here:
-    int selectedRow = incomeTable.getSelectedRow();
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(null, "Silakan pilih data income yang ingin diupdate.");
-        return;
-    }
-
-    String account = (String) incomeAccountName.getSelectedItem();
-    String source = (String) incomeSourceComboBox.getSelectedItem();
-    String amountText = incomeAmount.getText();
-    java.util.Date date = incomeDate.getDate();
-
-    if (account.equals("--select--") || source.equals("--select--") || amountText.isEmpty() || date == null) {
-        JOptionPane.showMessageDialog(null, "Mohon lengkapi semua data sebelum update.");
-        return;
-    }
-
-    try {
-        double amount = Double.parseDouble(amountText);
-        String formattedDate = new java.text.SimpleDateFormat("yyyy-MM-dd").format(date);
-
-        String query = "UPDATE income SET amount = ?, income_date = ?, income_source = ? " +
-                       "WHERE account_id = (SELECT account_id FROM account WHERE account_type = ? AND user_id = ?) " +
-                       "AND income_date = ?";
-
-        DatabaseManager.connect();
-        PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(query);
-        pstmt.setDouble(1, amount);
-        pstmt.setString(2, formattedDate);
-        pstmt.setString(3, source);
-        pstmt.setString(4, account);
-        pstmt.setInt(5, UserSession.userId);
-        pstmt.setString(6, formattedDate); // tanggal sebelumnya sebagai identifikasi
-
-        int updated = pstmt.executeUpdate();
-        if (updated > 0) {
-            JOptionPane.showMessageDialog(null, "Data income berhasil diupdate.");
-            updateComponents(); // refresh tampilan tabel
-        } else {
-            JOptionPane.showMessageDialog(null, "Gagal update data income.");
+        int selectedRow = incomeTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null, "Silakan pilih data income yang ingin diupdate.");
+            return;
         }
 
-        pstmt.close();
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(null, "Format angka tidak valid.");
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Error database: " + e.getMessage());
-    }
+        String account = (String) incomeAccountName.getSelectedItem();
+        String source = (String) incomeSourceComboBox.getSelectedItem();
+        String amountText = incomeAmount.getText();
+        java.util.Date date = incomeDate.getDate();
+
+        if (account.equals("--select--") || source.equals("--select--") || amountText.isEmpty() || date == null) {
+            JOptionPane.showMessageDialog(null, "Mohon lengkapi semua data sebelum update.");
+            return;
+        }
+
+        try {
+            double amount = Double.parseDouble(amountText);
+            String formattedDate = new java.text.SimpleDateFormat("yyyy-MM-dd").format(date);
+
+            String query = "UPDATE income SET amount = ?, income_date = ?, income_source = ? "
+                    + "WHERE account_id = (SELECT account_id FROM account WHERE account_type = ? AND user_id = ?) "
+                    + "AND income_date = ?";
+
+            DatabaseManager.connect();
+            PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(query);
+            pstmt.setDouble(1, amount);
+            pstmt.setString(2, formattedDate);
+            pstmt.setString(3, source);
+            pstmt.setString(4, account);
+            pstmt.setInt(5, UserSession.userId);
+            pstmt.setString(6, formattedDate); // tanggal sebelumnya sebagai identifikasi
+
+            int updated = pstmt.executeUpdate();
+            if (updated > 0) {
+                JOptionPane.showMessageDialog(null, "Data income berhasil diupdate.");
+                updateComponents(); // refresh tampilan tabel
+            } else {
+                JOptionPane.showMessageDialog(null, "Gagal update data income.");
+            }
+
+            pstmt.close();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Format angka tidak valid.");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error database: " + e.getMessage());
+        }
     }//GEN-LAST:event_updateIncomeButtonActionPerformed
 
     private void AccountUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AccountUpdateButtonActionPerformed
         // TODO add your handling code here:
-    String newAccountName = jTextField1.getText().trim();
+        String newAccountName = jTextField1.getText().trim();
 
-    if (newAccountName.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Nama account tidak boleh kosong.");
-        return;
-    }
-
-    try {
-        int selectedRow = accountTable.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "Pilih account dari tabel terlebih dahulu.");
+        if (newAccountName.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Nama account tidak boleh kosong.");
             return;
         }
 
-        String oldAccountName = accountTable.getValueAt(selectedRow, 0).toString(); // nama lama
-        int userId = UserSession.userId;
+        try {
+            int selectedRow = accountTable.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(null, "Pilih account dari tabel terlebih dahulu.");
+                return;
+            }
 
-        DatabaseManager.connect();
-        String sql = "UPDATE account SET account_type = ? WHERE user_id = ? AND account_type = ?";
-        PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(sql);
-        pstmt.setString(1, newAccountName);
-        pstmt.setInt(2, userId);
-        pstmt.setString(3, oldAccountName);
+            String oldAccountName = accountTable.getValueAt(selectedRow, 0).toString(); // nama lama
+            int userId = UserSession.userId;
 
-        int result = pstmt.executeUpdate();
-        if (result > 0) {
-            JOptionPane.showMessageDialog(null, "Nama account berhasil diperbarui.");
-            updateComponents(); // refresh table
-        } else {
-            JOptionPane.showMessageDialog(null, "Gagal memperbarui nama account.");
+            DatabaseManager.connect();
+            String sql = "UPDATE account SET account_type = ? WHERE user_id = ? AND account_type = ?";
+            PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(sql);
+            pstmt.setString(1, newAccountName);
+            pstmt.setInt(2, userId);
+            pstmt.setString(3, oldAccountName);
+
+            int result = pstmt.executeUpdate();
+            if (result > 0) {
+                JOptionPane.showMessageDialog(null, "Nama account berhasil diperbarui.");
+                updateComponents(); // refresh table
+            } else {
+                JOptionPane.showMessageDialog(null, "Gagal memperbarui nama account.");
+            }
+
+            pstmt.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Kesalahan database: " + e.getMessage());
         }
-
-        pstmt.close();
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Kesalahan database: " + e.getMessage());
-    }
 
     }//GEN-LAST:event_AccountUpdateButtonActionPerformed
 
     private void BudgetUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BudgetUpdateButtonActionPerformed
         // TODO add your handling code here:
-    int selectedRow = budgetTable.getSelectedRow();
+        int selectedRow = budgetTable.getSelectedRow();
 
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(null, "Silakan pilih baris budget yang ingin diupdate.");
-        return;
-    }
-
-    String oldCategory = budgetTable.getValueAt(selectedRow, 0).toString(); // kategori lama (dari tabel)
-    String newCategory = BudgetExpenseCategoryComboBox.getSelectedItem().toString(); // kategori baru
-    String amountText = BudgetAmount.getText().trim();
-
-    if (newCategory.equals("--select--") || amountText.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Mohon lengkapi semua data sebelum update.");
-        return;
-    }
-
-    try {
-        double amount = Double.parseDouble(amountText);
-
-        DatabaseManager.connect();
-        String query = "UPDATE budget SET expense_category = ?, amount = ? WHERE user_id = ? AND expense_category = ?";
-        PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(query);
-        pstmt.setString(1, newCategory);
-        pstmt.setDouble(2, amount);
-        pstmt.setInt(3, UserSession.userId);
-        pstmt.setString(4, oldCategory);
-
-        int rows = pstmt.executeUpdate();
-        if (rows > 0) {
-            JOptionPane.showMessageDialog(null, "Budget berhasil diperbarui.");
-            BudgetAmount.setText("");
-            BudgetExpenseCategoryComboBox.setSelectedIndex(0);
-            updateComponents(); // refresh table
-        } else {
-            JOptionPane.showMessageDialog(null, "Gagal memperbarui budget.");
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null, "Silakan pilih baris budget yang ingin diupdate.");
+            return;
         }
 
-        pstmt.close();
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(null, "Masukkan jumlah anggaran yang valid.");
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Terjadi kesalahan database: " + e.getMessage());
-    }
+        String oldCategory = budgetTable.getValueAt(selectedRow, 0).toString(); // kategori lama (dari tabel)
+        String newCategory = BudgetExpenseCategoryComboBox.getSelectedItem().toString(); // kategori baru
+        String amountText = BudgetAmount.getText().trim();
+
+        if (newCategory.equals("--select--") || amountText.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Mohon lengkapi semua data sebelum update.");
+            return;
+        }
+
+        try {
+            double amount = Double.parseDouble(amountText);
+
+            DatabaseManager.connect();
+            String query = "UPDATE budget SET expense_category = ?, amount = ? WHERE user_id = ? AND expense_category = ?";
+            PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(query);
+            pstmt.setString(1, newCategory);
+            pstmt.setDouble(2, amount);
+            pstmt.setInt(3, UserSession.userId);
+            pstmt.setString(4, oldCategory);
+
+            int rows = pstmt.executeUpdate();
+            if (rows > 0) {
+                JOptionPane.showMessageDialog(null, "Budget berhasil diperbarui.");
+                BudgetAmount.setText("");
+                BudgetExpenseCategoryComboBox.setSelectedIndex(0);
+                updateComponents(); // refresh table
+            } else {
+                JOptionPane.showMessageDialog(null, "Gagal memperbarui budget.");
+            }
+
+            pstmt.close();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Masukkan jumlah anggaran yang valid.");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan database: " + e.getMessage());
+        }
     }//GEN-LAST:event_BudgetUpdateButtonActionPerformed
 
     private void balanceLabelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_balanceLabelActionPerformed
