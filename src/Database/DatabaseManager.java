@@ -11,7 +11,7 @@ package Database;
 import java.sql.*;
 
 public class DatabaseManager {
-    private static final String URL = "jdbc:mysql://localhost:8889/finova_desktop";
+    private static final String URL = "jdbc:mysql://localhost:3306/finova_desktop";
     private static final String USER = "root";
     private static final String PASSWORD = "";
 
