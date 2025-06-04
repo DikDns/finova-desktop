@@ -5,6 +5,8 @@
 package Home;
 
 import Login.Login;
+import finova.PdfExporter;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -23,12 +25,13 @@ import Chart.IncomeExpenseChart;
 import CurrencyAPI.CurrencyAPI;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.print.PrinterException;
+import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.swing.ImageIcon;
-
+import javax.swing.JFileChooser;
 import javax.swing.JTable;
 
 /**
@@ -65,21 +68,20 @@ public class HomePage extends javax.swing.JFrame {
         fillRemoveBudgetComboBox();
         populate_budget();
         updateProgressBar();
-        
+
         refreshButton.setIcon(new FlatSVGIcon("Icon/refresh.svg", refreshButton.getWidth(), refreshButton.getHeight()));
         jLabel20.setIcon(new FlatSVGIcon("Icon/empty-wallet.svg", refreshButton.getWidth(), refreshButton.getHeight()));
         jLabel16.setIcon(new FlatSVGIcon("Icon/presention-chart.svg", refreshButton.getWidth(), refreshButton.getHeight()));
         jLabel14.setIcon(new FlatSVGIcon("Icon/money-recive.svg", refreshButton.getWidth(), refreshButton.getHeight()));
         jLabel4.setIcon(new FlatSVGIcon("Icon/money-send.svg", refreshButton.getWidth(), refreshButton.getHeight()));
         setIconImage(logo.getImage());
-        
+
         CurrencyInfo info = CurrencyAPI.fetchCurrencyDataWithFallback();
-        
-        
+
         if (info != null) {
             System.out.println("Data received in MyApplication:");
             System.out.println("Date: " + info.getDate());
-            System.out.println("Full info: " + info); 
+            System.out.println("Full info: " + info);
             exchangeRatesLabel.setText("1 USD = " + info.getFormattedIdrRate());
         } else {
             System.out.println("MyApplication: Failed to retrieve currency data.");
@@ -628,7 +630,7 @@ public class HomePage extends javax.swing.JFrame {
         printButton.setBackground(new java.awt.Color(55, 98, 217));
         printButton.setFont(new java.awt.Font("Chivo", 1, 12)); // NOI18N
         printButton.setForeground(new java.awt.Color(255, 255, 255));
-        printButton.setText("Print Table");
+        printButton.setText("Export PDF");
         printButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 printButtonActionPerformed(evt);
@@ -1146,14 +1148,18 @@ public class HomePage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
-        try {
-            MessageFormat headerFormat = new MessageFormat("Transaction Report");
-            MessageFormat footerFormat = new MessageFormat("");
-            transactionTable.print(JTable.PrintMode.FIT_WIDTH, headerFormat, footerFormat);
-        } catch (PrinterException ex) {
-            ex.printStackTrace();
-            // Handle the exception appropriately
-        }    }//GEN-LAST:event_printButtonActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Save PDF");
+        fileChooser.setSelectedFile(new File("FinovaReport.pdf"));
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            PdfExporter exporter = new PdfExporter();
+            exporter.exportToPdf(fileToSave.getAbsolutePath());
+            JOptionPane.showMessageDialog(this, "PDF Exported Successfully!", "Export Success", JOptionPane.INFORMATION_MESSAGE);
+        }
+          }//GEN-LAST:event_printButtonActionPerformed
 
     private void incomeLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_incomeLabelActionPerformed
         // TODO add your handling code here:
@@ -2478,9 +2484,7 @@ public class HomePage extends javax.swing.JFrame {
             double totalExpense = 0;
             if (expenseResult.next()) {
                 totalExpense = expenseResult.getDouble("total_expense");
-            }
-
-            // Calculate saved money
+            } // Calculate saved money
             double savedMoney = totalIncome - totalExpense;
 
             // Get target amount for this month
@@ -2493,15 +2497,11 @@ public class HomePage extends javax.swing.JFrame {
             double targetAmount = 0;
             if (targetAmountResult.next()) {
                 targetAmount = targetAmountResult.getDouble("amount");
-            }
-
-            // Calculate percentage achieved towards the target amount
+            } // Calculate percentage achieved towards the target amount
             double percentage = 0;
             if (targetAmount != 0) {
                 percentage = (savedMoney / targetAmount) * 100;
-            }
-
-            // Update progress bar
+            } // Update progress bar
             int progress = (int) Math.round(percentage);
             jProgressBar1.setValue(progress);
             progressLabel.setText(savedMoney + "/" + targetAmount);
@@ -2536,16 +2536,24 @@ public class HomePage extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(HomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HomePage.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(HomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HomePage.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(HomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HomePage.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(HomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HomePage.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         // </editor-fold>
         /* Create and display the form */
