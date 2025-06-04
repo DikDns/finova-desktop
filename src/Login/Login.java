@@ -9,12 +9,15 @@ import java.sql.ResultSet;
 import Database.DatabaseManager;
 import Home.HomePage;
 import Database.UserSession;
+import javax.swing.ImageIcon;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class Login extends javax.swing.JFrame {
+    ImageIcon logo = new ImageIcon(this.getClass().getResource("/Icon/finova-logo.png"));
     
     public Login() {
         initComponents();
+        this.setIconImage(logo.getImage());
     }
     
     @SuppressWarnings("unchecked")

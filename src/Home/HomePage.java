@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import Database.UserSession;
 import javax.swing.table.DefaultTableModel;
 import Database.DatabaseManager;
+
 import java.awt.event.ActionEvent;
 import java.util.Date;
 import Chart.IncomeExpenseChart;
@@ -23,6 +24,8 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.swing.ImageIcon;
+
 import javax.swing.JTable;
 
 
@@ -34,8 +37,9 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JTextField balanceTextField;
     private javax.swing.JTextField liabilitiesTextField;
 
-
     UserSession s;
+    
+    ImageIcon logo = new ImageIcon(this.getClass().getResource("/Icon/finova-logo.png"));
 
     /**
      * Creates new form HomePage
@@ -44,6 +48,7 @@ public class HomePage extends javax.swing.JFrame {
         this.s = new UserSession();
         initComponents();
         updateComponents();
+        setIconImage(logo.getImage());
     }
 
     private void updateComponents() {
@@ -58,7 +63,7 @@ public class HomePage extends javax.swing.JFrame {
         fillRemoveBudgetComboBox();
         populate_budget();
         updateProgressBar();
-        
+
         expenseTable.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mouseClicked(java.awt.event.MouseEvent evt) {
         int selectedRow = expenseTable.getSelectedRow();
@@ -83,7 +88,7 @@ public class HomePage extends javax.swing.JFrame {
                 e.printStackTrace();
             }
         }
-        
+
     }
 });
         incomeTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -465,10 +470,11 @@ public class HomePage extends javax.swing.JFrame {
         jPanel7.add(balanceLabel);
         balanceLabel.setBounds(30, 100, 130, 30);
 
-        jLabel9.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Chivo", 1, 18)); // NOI18N
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Current Balance");
         jPanel7.add(jLabel9);
-        jLabel9.setBounds(30, 60, 140, 40);
+        jLabel9.setBounds(10, 60, 170, 40);
 
         jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/balance.png"))); // NOI18N
         jPanel7.add(jLabel20);
@@ -1260,7 +1266,7 @@ public class HomePage extends javax.swing.JFrame {
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(null, "Kesalahan database: " + e.getMessage());
     }
-        
+
     }//GEN-LAST:event_AccountUpdateButtonActionPerformed
 
     private void BudgetUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BudgetUpdateButtonActionPerformed
