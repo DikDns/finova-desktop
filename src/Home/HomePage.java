@@ -15,10 +15,12 @@ import java.sql.ResultSet;
 import Database.UserSession;
 import javax.swing.table.DefaultTableModel;
 import Database.DatabaseManager;
+import CurrencyAPI.CurrencyAPI.CurrencyInfo;
 
 import java.awt.event.ActionEvent;
 import java.util.Date;
 import Chart.IncomeExpenseChart;
+import CurrencyAPI.CurrencyAPI;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.print.PrinterException;
 import java.text.MessageFormat;
@@ -48,12 +50,6 @@ public class HomePage extends javax.swing.JFrame {
     public HomePage() {
         this.s = new UserSession();
         initComponents();
-        refreshButton.setIcon(new FlatSVGIcon("Icon/refresh.svg", refreshButton.getWidth(), refreshButton.getHeight()));
-        jLabel20.setIcon(new FlatSVGIcon("Icon/empty-wallet.svg", refreshButton.getWidth(), refreshButton.getHeight()));
-        jLabel16.setIcon(new FlatSVGIcon("Icon/presention-chart.svg", refreshButton.getWidth(), refreshButton.getHeight()));
-        jLabel14.setIcon(new FlatSVGIcon("Icon/money-recive.svg", refreshButton.getWidth(), refreshButton.getHeight()));
-        jLabel4.setIcon(new FlatSVGIcon("Icon/money-send.svg", refreshButton.getWidth(), refreshButton.getHeight()));
-        setIconImage(logo.getImage());
         updateComponents();
     }
 
@@ -69,6 +65,25 @@ public class HomePage extends javax.swing.JFrame {
         fillRemoveBudgetComboBox();
         populate_budget();
         updateProgressBar();
+        
+        refreshButton.setIcon(new FlatSVGIcon("Icon/refresh.svg", refreshButton.getWidth(), refreshButton.getHeight()));
+        jLabel20.setIcon(new FlatSVGIcon("Icon/empty-wallet.svg", refreshButton.getWidth(), refreshButton.getHeight()));
+        jLabel16.setIcon(new FlatSVGIcon("Icon/presention-chart.svg", refreshButton.getWidth(), refreshButton.getHeight()));
+        jLabel14.setIcon(new FlatSVGIcon("Icon/money-recive.svg", refreshButton.getWidth(), refreshButton.getHeight()));
+        jLabel4.setIcon(new FlatSVGIcon("Icon/money-send.svg", refreshButton.getWidth(), refreshButton.getHeight()));
+        setIconImage(logo.getImage());
+        
+        CurrencyInfo info = CurrencyAPI.fetchCurrencyDataWithFallback();
+        
+        
+        if (info != null) {
+            System.out.println("Data received in MyApplication:");
+            System.out.println("Date: " + info.getDate());
+            System.out.println("Full info: " + info); 
+            exchangeRatesLabel.setText("1 USD = " + info.getFormattedIdrRate());
+        } else {
+            System.out.println("MyApplication: Failed to retrieve currency data.");
+        }
 
         expenseTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -170,6 +185,7 @@ public class HomePage extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         Home_tab_scrollpane = new javax.swing.JScrollPane();
         Home_tab = new javax.swing.JPanel();
+        exchangeRatesLabel = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         balanceLabel = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -196,6 +212,7 @@ public class HomePage extends javax.swing.JFrame {
         progressLabel = new javax.swing.JLabel();
         printButton = new javax.swing.JButton();
         jLabel43 = new javax.swing.JLabel();
+        jLabel44 = new javax.swing.JLabel();
         Account_tab = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -465,6 +482,10 @@ public class HomePage extends javax.swing.JFrame {
 
         Home_tab.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        exchangeRatesLabel.setEditable(false);
+        exchangeRatesLabel.setFont(new java.awt.Font("Spectral", 0, 12)); // NOI18N
+        Home_tab.add(exchangeRatesLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 230, 140, 30));
+
         jPanel7.setBackground(new java.awt.Color(225, 225, 225));
         jPanel7.setLayout(null);
 
@@ -567,8 +588,8 @@ public class HomePage extends javax.swing.JFrame {
         Home_tab.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 140, 40));
 
         jLabel31.setFont(new java.awt.Font("Chivo", 1, 16)); // NOI18N
-        jLabel31.setText("Transactions");
-        Home_tab.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 110, 30));
+        jLabel31.setText("Exchange Rate:");
+        Home_tab.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 230, 130, 30));
 
         transactionTable.setFont(new java.awt.Font("Spectral", 0, 12)); // NOI18N
         transactionTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -618,6 +639,10 @@ public class HomePage extends javax.swing.JFrame {
         jLabel43.setFont(new java.awt.Font("Spectral", 0, 12)); // NOI18N
         jLabel43.setText("(Income is the money you earn and Expenses are the money you spend.)");
         Home_tab.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, -1, -1));
+
+        jLabel44.setFont(new java.awt.Font("Chivo", 1, 16)); // NOI18N
+        jLabel44.setText("Transactions");
+        Home_tab.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 110, 30));
 
         Home_tab_scrollpane.setViewportView(Home_tab);
 
@@ -2561,6 +2586,7 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JTable budgetTable;
     private javax.swing.JButton createAccount;
     private javax.swing.JButton deleteAccount;
+    private javax.swing.JTextField exchangeRatesLabel;
     private javax.swing.JComboBox<String> expenseAccountName;
     private javax.swing.JTextField expenseAmount;
     private javax.swing.JComboBox<String> expenseCategoryComboBox;
@@ -2618,6 +2644,7 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
