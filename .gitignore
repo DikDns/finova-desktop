@@ -20,3 +20,6 @@ manifest.mf
 build.xml
 
 /dist/
+
+
+nbproject/private/
