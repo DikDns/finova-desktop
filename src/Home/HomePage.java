@@ -230,8 +230,6 @@ public class HomePage extends javax.swing.JFrame {
         AccountUpdateButton = new javax.swing.JButton();
         Income_tab_scrollpane = new javax.swing.JScrollPane();
         Income_tab = new javax.swing.JPanel();
-        jPanel12 = new javax.swing.JPanel();
-        jLabel21 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         incomeDate = new com.toedter.calendar.JDateChooser();
         jLabel24 = new javax.swing.JLabel();
@@ -249,12 +247,10 @@ public class HomePage extends javax.swing.JFrame {
         incomeTable = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         updateIncomeButton = new javax.swing.JButton();
+        jLabel21 = new javax.swing.JLabel();
         Expense_tab_scrollPane = new javax.swing.JScrollPane();
         Expense = new javax.swing.JPanel();
         Expense_Tab = new javax.swing.JPanel();
-        jPanel10 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
-        jScrollPane5 = new javax.swing.JScrollPane();
         jLabel15 = new javax.swing.JLabel();
         expenseAccountName = new javax.swing.JComboBox<>();
         jPanel11 = new javax.swing.JPanel();
@@ -278,11 +274,9 @@ public class HomePage extends javax.swing.JFrame {
         addExpenseCategory = new javax.swing.JButton();
         expenseAmount = new javax.swing.JTextField();
         ExpenseUpdateButton = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
         Budget_tab_scrollpane = new javax.swing.JScrollPane();
         Budget_tab = new javax.swing.JPanel();
-        jPanel14 = new javax.swing.JPanel();
-        jLabel32 = new javax.swing.JLabel();
-        jScrollPane6 = new javax.swing.JScrollPane();
         jLabel33 = new javax.swing.JLabel();
         BudgetExpenseCategoryComboBox = new javax.swing.JComboBox<>();
         removeBudgetComboBox = new javax.swing.JComboBox<>();
@@ -304,6 +298,7 @@ public class HomePage extends javax.swing.JFrame {
         jScrollPane7 = new javax.swing.JScrollPane();
         budgetTable = new javax.swing.JTable();
         BudgetUpdateButton = new javax.swing.JButton();
+        jLabel32 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Finova Desktop");
@@ -486,6 +481,11 @@ public class HomePage extends javax.swing.JFrame {
 
         exchangeRatesLabel.setEditable(false);
         exchangeRatesLabel.setFont(new java.awt.Font("Spectral", 0, 12)); // NOI18N
+        exchangeRatesLabel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exchangeRatesLabelActionPerformed(evt);
+            }
+        });
         Home_tab.add(exchangeRatesLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 230, 140, 30));
 
         jPanel7.setBackground(new java.awt.Color(225, 225, 225));
@@ -652,7 +652,7 @@ public class HomePage extends javax.swing.JFrame {
 
         Account_tab.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Chivo", 1, 14)); // NOI18N
         jLabel5.setText("Delete Account");
         Account_tab.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 30, -1, 30));
 
@@ -674,13 +674,14 @@ public class HomePage extends javax.swing.JFrame {
         accountTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(accountTable);
 
-        Account_tab.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 770, 120));
+        Account_tab.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 770, 120));
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Chivo", 1, 14)); // NOI18N
         jLabel6.setText("Accounts");
-        Account_tab.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, -1, 30));
+        Account_tab.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, -1, 30));
 
         deleteAccount.setBackground(new java.awt.Color(55, 98, 217));
+        deleteAccount.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         deleteAccount.setForeground(new java.awt.Color(255, 255, 255));
         deleteAccount.setText("Delete");
         deleteAccount.addActionListener(new java.awt.event.ActionListener() {
@@ -697,16 +698,19 @@ public class HomePage extends javax.swing.JFrame {
         });
         Account_tab.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 150, 30));
 
+        jLabel2.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jLabel2.setText("Name");
         Account_tab.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 70, -1, 30));
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Chivo", 1, 14)); // NOI18N
         jLabel7.setText("Create Account");
         Account_tab.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, 30));
 
+        jLabel8.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jLabel8.setText("Name");
         Account_tab.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, -1, 30));
 
+        jComboBox1.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--select--" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -716,6 +720,7 @@ public class HomePage extends javax.swing.JFrame {
         Account_tab.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 70, 150, 30));
 
         createAccount.setBackground(new java.awt.Color(55, 98, 217));
+        createAccount.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         createAccount.setForeground(new java.awt.Color(255, 255, 255));
         createAccount.setText("Create");
         createAccount.addActionListener(new java.awt.event.ActionListener() {
@@ -726,6 +731,7 @@ public class HomePage extends javax.swing.JFrame {
         Account_tab.add(createAccount, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 70, -1, 30));
 
         AccountUpdateButton.setBackground(new java.awt.Color(55, 98, 217));
+        AccountUpdateButton.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         AccountUpdateButton.setForeground(new java.awt.Color(255, 255, 255));
         AccountUpdateButton.setText("Update");
         AccountUpdateButton.addActionListener(new java.awt.event.ActionListener() {
@@ -733,62 +739,56 @@ public class HomePage extends javax.swing.JFrame {
                 AccountUpdateButtonActionPerformed(evt);
             }
         });
-        Account_tab.add(AccountUpdateButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, -1, 30));
+        Account_tab.add(AccountUpdateButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, 30));
 
         jTabbedPane1.addTab("Accounts", Account_tab);
 
         Income_tab.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel12.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel21.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
-        jLabel21.setText("Income");
-        jPanel12.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 170, 50));
-
-        Income_tab.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 860, 50));
-
-        jLabel23.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel23.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jLabel23.setText("Date");
-        Income_tab.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 60, 30));
-        Income_tab.add(incomeDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 100, 210, 30));
+        Income_tab.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, 60, 30));
+        Income_tab.add(incomeDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 70, 210, 30));
 
-        jLabel24.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel24.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jLabel24.setText("Source");
-        Income_tab.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 220, -1, 30));
+        Income_tab.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, -1, 30));
 
+        incomeSourceComboBox.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         incomeSourceComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--select--" }));
         incomeSourceComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 incomeSourceComboBoxActionPerformed(evt);
             }
         });
-        Income_tab.add(incomeSourceComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 220, 210, 30));
+        Income_tab.add(incomeSourceComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 190, 210, 30));
 
-        jLabel25.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel25.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jLabel25.setText("Account");
-        Income_tab.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, -1, 30));
+        Income_tab.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, 30));
 
         incomeAmount.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 incomeAmountActionPerformed(evt);
             }
         });
-        Income_tab.add(incomeAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 280, 210, 30));
+        Income_tab.add(incomeAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 250, 210, 30));
 
-        jLabel26.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel26.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jLabel26.setText("Amount");
-        Income_tab.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, -1, 30));
+        Income_tab.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, -1, 30));
 
+        incomeAccountName.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         incomeAccountName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--select--" }));
         incomeAccountName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 incomeAccountNameActionPerformed(evt);
             }
         });
-        Income_tab.add(incomeAccountName, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 160, 210, 30));
+        Income_tab.add(incomeAccountName, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 210, 30));
 
         addIncomeButton.setBackground(new java.awt.Color(55, 98, 217));
+        addIncomeButton.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         addIncomeButton.setForeground(new java.awt.Color(255, 255, 255));
         addIncomeButton.setText("Add");
         addIncomeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -796,9 +796,10 @@ public class HomePage extends javax.swing.JFrame {
                 addIncomeButtonActionPerformed(evt);
             }
         });
-        Income_tab.add(addIncomeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 340, 80, 30));
+        Income_tab.add(addIncomeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 300, 80, 30));
 
         resetIncomeButton.setBackground(new java.awt.Color(55, 98, 217));
+        resetIncomeButton.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         resetIncomeButton.setForeground(new java.awt.Color(255, 255, 255));
         resetIncomeButton.setText("Reset");
         resetIncomeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -806,13 +807,14 @@ public class HomePage extends javax.swing.JFrame {
                 resetIncomeButtonActionPerformed(evt);
             }
         });
-        Income_tab.add(resetIncomeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 340, 80, 30));
+        Income_tab.add(resetIncomeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 300, 80, 30));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jLabel1.setText("New Source");
-        Income_tab.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 220, -1, 30));
+        Income_tab.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 190, -1, 30));
 
         addIncomeSource.setBackground(new java.awt.Color(55, 98, 217));
+        addIncomeSource.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         addIncomeSource.setForeground(new java.awt.Color(255, 255, 255));
         addIncomeSource.setText("Add");
         addIncomeSource.addActionListener(new java.awt.event.ActionListener() {
@@ -820,8 +822,8 @@ public class HomePage extends javax.swing.JFrame {
                 addIncomeSourceActionPerformed(evt);
             }
         });
-        Income_tab.add(addIncomeSource, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 220, 70, 30));
-        Income_tab.add(incomeSourceTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 220, 140, 30));
+        Income_tab.add(addIncomeSource, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 190, 70, 30));
+        Income_tab.add(incomeSourceTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 190, 140, 30));
 
         incomeTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -836,13 +838,14 @@ public class HomePage extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(incomeTable);
 
-        Income_tab.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 470, 780, 120));
+        Income_tab.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, 780, 120));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel3.setText("Incomes");
-        Income_tab.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 440, -1, -1));
+        Income_tab.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 350, -1, -1));
 
         updateIncomeButton.setBackground(new java.awt.Color(55, 98, 217));
+        updateIncomeButton.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         updateIncomeButton.setForeground(new java.awt.Color(255, 255, 255));
         updateIncomeButton.setText("Update");
         updateIncomeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -850,7 +853,11 @@ public class HomePage extends javax.swing.JFrame {
                 updateIncomeButtonActionPerformed(evt);
             }
         });
-        Income_tab.add(updateIncomeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 340, -1, 30));
+        Income_tab.add(updateIncomeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 300, -1, 30));
+
+        jLabel21.setFont(new java.awt.Font("Chivo", 1, 14)); // NOI18N
+        jLabel21.setText("Income");
+        Income_tab.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 170, 20));
 
         Income_tab_scrollpane.setViewportView(Income_tab);
 
@@ -860,19 +867,9 @@ public class HomePage extends javax.swing.JFrame {
 
         Expense_Tab.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel10.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel13.setFont(new java.awt.Font("Chivo", 1, 24)); // NOI18N
-        jLabel13.setText("Add Expenses");
-        jPanel10.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 170, 50));
-        jPanel10.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, -30, -1, -1));
-
-        Expense_Tab.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 860, 50));
-
-        jLabel15.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jLabel15.setText("Account");
-        Expense_Tab.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 70, -1, -1));
+        Expense_Tab.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 70, -1, -1));
 
         expenseAccountName.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         expenseAccountName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--select--" }));
@@ -881,20 +878,19 @@ public class HomePage extends javax.swing.JFrame {
                 expenseAccountNameActionPerformed(evt);
             }
         });
-        Expense_Tab.add(expenseAccountName, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 100, 210, -1));
+        Expense_Tab.add(expenseAccountName, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 100, 210, -1));
 
-        jPanel11.setBackground(new java.awt.Color(241, 241, 237));
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel17.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
+        jLabel17.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jLabel17.setText("Add Category");
         jPanel11.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 110, 30));
 
-        jLabel18.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
+        jLabel18.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jLabel18.setText("Amount");
         jPanel11.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 0, 100, 30));
 
-        jLabel19.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
+        jLabel19.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jLabel19.setText("Remark");
         jPanel11.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 0, 80, 30));
 
@@ -915,7 +911,7 @@ public class HomePage extends javax.swing.JFrame {
 
         jPanel11.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 860, 30));
 
-        jLabel30.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
+        jLabel30.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jLabel30.setText("Category");
         jPanel11.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 110, 30));
 
@@ -955,7 +951,7 @@ public class HomePage extends javax.swing.JFrame {
         Expense_Tab.add(ExpenseResetButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 80, 30));
         Expense_Tab.add(expenseDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 210, -1));
 
-        jLabel22.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
+        jLabel22.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jLabel22.setText("Date");
         Expense_Tab.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, 60, 20));
 
@@ -999,6 +995,10 @@ public class HomePage extends javax.swing.JFrame {
         });
         Expense_Tab.add(ExpenseUpdateButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 240, -1, 30));
 
+        jLabel13.setFont(new java.awt.Font("Chivo", 1, 14)); // NOI18N
+        jLabel13.setText("Add Expenses");
+        Expense_Tab.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 110, 20));
+
         Expense.add(Expense_Tab, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 450));
 
         Expense_tab_scrollPane.setViewportView(Expense);
@@ -1007,19 +1007,9 @@ public class HomePage extends javax.swing.JFrame {
 
         Budget_tab.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel14.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel32.setFont(new java.awt.Font("Chivo", 1, 24)); // NOI18N
-        jLabel32.setText("Add Budget");
-        jPanel14.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 170, 50));
-        jPanel14.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, -30, -1, -1));
-
-        Budget_tab.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 860, 50));
-
         jLabel33.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
         jLabel33.setText("A budget helps users allocate their income to different categories for effective financial management and goal achievement.");
-        Budget_tab.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, -1));
+        Budget_tab.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, -1, -1));
 
         BudgetExpenseCategoryComboBox.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
         BudgetExpenseCategoryComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--select--", " " }));
@@ -1027,20 +1017,20 @@ public class HomePage extends javax.swing.JFrame {
 
         removeBudgetComboBox.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
         removeBudgetComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--select--" }));
-        Budget_tab.add(removeBudgetComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, 140, 30));
+        Budget_tab.add(removeBudgetComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 140, 30));
 
         BudgetAmount.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
         Budget_tab.add(BudgetAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 170, 140, 30));
 
         jLabel34.setFont(new java.awt.Font("Chivo", 1, 14)); // NOI18N
         jLabel34.setText("Allocate Budget");
-        Budget_tab.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
+        Budget_tab.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
 
-        jLabel35.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
+        jLabel35.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jLabel35.setText("Expense Category");
         Budget_tab.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, 30));
 
-        jLabel36.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
+        jLabel36.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jLabel36.setText("Add New Category");
         Budget_tab.add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, 140, 30));
 
@@ -1058,9 +1048,9 @@ public class HomePage extends javax.swing.JFrame {
         });
         Budget_tab.add(addBudgetExpenseCategoryButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 170, 70, 30));
 
-        jLabel37.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
+        jLabel37.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jLabel37.setText("Remove Budget");
-        Budget_tab.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, -1, -1));
+        Budget_tab.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, -1, -1));
 
         removeBudgetButton.setBackground(new java.awt.Color(55, 98, 217));
         removeBudgetButton.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
@@ -1071,14 +1061,14 @@ public class HomePage extends javax.swing.JFrame {
                 removeBudgetButtonActionPerformed(evt);
             }
         });
-        Budget_tab.add(removeBudgetButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 350, -1, 30));
+        Budget_tab.add(removeBudgetButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 340, -1, 30));
 
-        jLabel38.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
+        jLabel38.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jLabel38.setText("Amount");
         Budget_tab.add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 140, -1, -1));
 
         addBudget.setBackground(new java.awt.Color(55, 98, 217));
-        addBudget.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
+        addBudget.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         addBudget.setForeground(new java.awt.Color(255, 255, 255));
         addBudget.setText("Allocate Budget");
         addBudget.addActionListener(new java.awt.event.ActionListener() {
@@ -1091,13 +1081,13 @@ public class HomePage extends javax.swing.JFrame {
         targetAmountTextField.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
         Budget_tab.add(targetAmountTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 140, 30));
 
-        jLabel39.setFont(new java.awt.Font("Chivo", 0, 14)); // NOI18N
+        jLabel39.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jLabel39.setText("Target Amount");
         Budget_tab.add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, -1));
 
-        jLabel40.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
+        jLabel40.setFont(new java.awt.Font("Chivo", 0, 12)); // NOI18N
         jLabel40.setText("(amount which you are targeting to save in this month)");
-        Budget_tab.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, -1, 20));
+        Budget_tab.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, -1, -1));
 
         addTargetAmountButton.setBackground(new java.awt.Color(55, 98, 217));
         addTargetAmountButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -1111,7 +1101,7 @@ public class HomePage extends javax.swing.JFrame {
 
         jLabel42.setFont(new java.awt.Font("Chivo", 1, 14)); // NOI18N
         jLabel42.setText("Budget's");
-        Budget_tab.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, -1, -1));
+        Budget_tab.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 390, -1, -1));
 
         budgetTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1126,7 +1116,7 @@ public class HomePage extends javax.swing.JFrame {
         ));
         jScrollPane7.setViewportView(budgetTable);
 
-        Budget_tab.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, 770, 140));
+        Budget_tab.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, 770, 140));
 
         BudgetUpdateButton.setBackground(new java.awt.Color(55, 98, 217));
         BudgetUpdateButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -1137,6 +1127,10 @@ public class HomePage extends javax.swing.JFrame {
             }
         });
         Budget_tab.add(BudgetUpdateButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 170, -1, 30));
+
+        jLabel32.setFont(new java.awt.Font("Chivo", 1, 14)); // NOI18N
+        jLabel32.setText("Add Budget");
+        Budget_tab.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 90, 30));
 
         Budget_tab_scrollpane.setViewportView(Budget_tab);
 
@@ -1364,6 +1358,10 @@ public class HomePage extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Terjadi kesalahan database: " + e.getMessage());
         }
     }//GEN-LAST:event_BudgetUpdateButtonActionPerformed
+
+    private void exchangeRatesLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exchangeRatesLabelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_exchangeRatesLabelActionPerformed
 
     private void balanceLabelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_balanceLabelActionPerformed
         // TODO add your handling code here:
@@ -2659,11 +2657,8 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
@@ -2674,8 +2669,6 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
