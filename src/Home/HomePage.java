@@ -249,7 +249,6 @@ public class HomePage extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         updateIncomeButton = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
-        jLabel46 = new javax.swing.JLabel();
         Expense_tab_scrollPane = new javax.swing.JScrollPane();
         Expense = new javax.swing.JPanel();
         Expense_Tab = new javax.swing.JPanel();
@@ -862,10 +861,7 @@ public class HomePage extends javax.swing.JFrame {
 
         jLabel21.setFont(new java.awt.Font("Chivo", 1, 14)); // NOI18N
         jLabel21.setText("Income");
-        Income_tab.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 170, 20));
-
-        jLabel46.setText("Income records help users track money received from salaries, bonuses, or other earnings.");
-        Income_tab.add(jLabel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, -1, -1));
+        Income_tab.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 170, 20));
 
         Income_tab_scrollpane.setViewportView(Income_tab);
 
@@ -2660,7 +2656,6 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel45;
-    private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
