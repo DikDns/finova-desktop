@@ -1023,6 +1023,11 @@ public class HomePage extends javax.swing.JFrame {
 
         BudgetExpenseCategoryComboBox.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
         BudgetExpenseCategoryComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--select--", " " }));
+        BudgetExpenseCategoryComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BudgetExpenseCategoryComboBoxActionPerformed(evt);
+            }
+        });
         Budget_tab.add(BudgetExpenseCategoryComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 140, 30));
 
         removeBudgetComboBox.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
@@ -1177,8 +1182,11 @@ public class HomePage extends javax.swing.JFrame {
             return;
         }
 
-        String account = (String) expenseAccountName.getSelectedItem();
-        String category = (String) expenseCategoryComboBox.getSelectedItem();
+        String oldAccount = expenseTable.getValueAt(selectedRow, 0).toString(); // akun lama (dari tabel)
+        String oldcategory = expenseTable.getValueAt(selectedRow, 1).toString(); // cateogry lama (dari tabel)
+
+        String account = expenseAccountName.getSelectedItem().toString();
+        String category = expenseCategoryComboBox.getSelectedItem().toString();
         String amountText = expenseAmount.getText();
         java.util.Date date = expenseDate.getDate();
         String remark = expenseRemark.getText();
@@ -1188,12 +1196,17 @@ public class HomePage extends javax.swing.JFrame {
             return;
         }
 
+        System.out.println("Account: " + account);
+        System.out.println("category: " + category);
+
         try {
             double amount = Double.parseDouble(amountText);
             String formattedDate = new java.text.SimpleDateFormat("yyyy-MM-dd").format(date);
 
             // Asumsi: primary key transaksi adalah kombinasi yang unik dari data tabel (atau Anda bisa tambahkan kolom id_transaksi dan simpan ID-nya)
-            String query = "UPDATE expense SET amount = ?, expense_date = ?, remark = ? "
+            String query = "UPDATE expense SET amount = ?, expense_date = ?, remark = ?, "
+                    + "account_id = (SELECT account_id FROM account WHERE account_type = ? AND user_id = ?), "
+                    + "expense_category = (SELECT expense_category FROM expense_category WHERE category_name = ? AND user_id = ?)"
                     + "WHERE account_id = (SELECT account_id FROM account WHERE account_type = ? AND user_id = ?) "
                     + "AND expense_category = (SELECT expense_category FROM expense_category WHERE category_name = ? AND user_id = ?) "
                     + "AND expense_date = ?";
@@ -1207,7 +1220,11 @@ public class HomePage extends javax.swing.JFrame {
             pstmt.setInt(5, UserSession.userId);
             pstmt.setString(6, category);
             pstmt.setInt(7, UserSession.userId);
-            pstmt.setString(8, formattedDate); // WHERE clause: original date (as key)
+            pstmt.setString(8, oldAccount);
+            pstmt.setInt(9, UserSession.userId);
+            pstmt.setString(10, oldcategory);
+            pstmt.setInt(11, UserSession.userId);
+            pstmt.setString(12, formattedDate); // WHERE clause: original date (as key)
 
             int updated = pstmt.executeUpdate();
             if (updated > 0) {
@@ -1364,6 +1381,10 @@ public class HomePage extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Terjadi kesalahan database: " + e.getMessage());
         }
     }//GEN-LAST:event_BudgetUpdateButtonActionPerformed
+
+    private void BudgetExpenseCategoryComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BudgetExpenseCategoryComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BudgetExpenseCategoryComboBoxActionPerformed
 
     private void balanceLabelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_balanceLabelActionPerformed
         // TODO add your handling code here:
