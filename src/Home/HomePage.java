@@ -228,6 +228,7 @@ public class HomePage extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         createAccount = new javax.swing.JButton();
         AccountUpdateButton = new javax.swing.JButton();
+        jLabel45 = new javax.swing.JLabel();
         Income_tab_scrollpane = new javax.swing.JScrollPane();
         Income_tab = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
@@ -248,6 +249,7 @@ public class HomePage extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         updateIncomeButton = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
+        jLabel46 = new javax.swing.JLabel();
         Expense_tab_scrollPane = new javax.swing.JScrollPane();
         Expense = new javax.swing.JPanel();
         Expense_Tab = new javax.swing.JPanel();
@@ -674,7 +676,7 @@ public class HomePage extends javax.swing.JFrame {
         accountTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(accountTable);
 
-        Account_tab.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 770, 120));
+        Account_tab.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 770, 120));
 
         jLabel6.setFont(new java.awt.Font("Chivo", 1, 14)); // NOI18N
         jLabel6.setText("Accounts");
@@ -740,6 +742,9 @@ public class HomePage extends javax.swing.JFrame {
             }
         });
         Account_tab.add(AccountUpdateButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, 30));
+
+        jLabel45.setText("An account stores your money and tracks transactions across banks, wallets, or other financial sources.");
+        Account_tab.add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, -1, -1));
 
         jTabbedPane1.addTab("Accounts", Account_tab);
 
@@ -857,7 +862,10 @@ public class HomePage extends javax.swing.JFrame {
 
         jLabel21.setFont(new java.awt.Font("Chivo", 1, 14)); // NOI18N
         jLabel21.setText("Income");
-        Income_tab.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 170, 20));
+        Income_tab.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 170, 20));
+
+        jLabel46.setText("Income records help users track money received from salaries, bonuses, or other earnings.");
+        Income_tab.add(jLabel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, -1, -1));
 
         Income_tab_scrollpane.setViewportView(Income_tab);
 
@@ -1167,7 +1175,7 @@ public class HomePage extends javax.swing.JFrame {
         // TODO add your handling code here:
         int selectedRow = expenseTable.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "Silakan pilih baris data yang ingin diupdate.");
+            JOptionPane.showMessageDialog(null, "Please select the data row you want to update.");
             return;
         }
 
@@ -1178,7 +1186,7 @@ public class HomePage extends javax.swing.JFrame {
         String remark = expenseRemark.getText();
 
         if (account.equals("--select--") || category.equals("--select--") || amountText.isEmpty() || date == null) {
-            JOptionPane.showMessageDialog(null, "Mohon lengkapi semua data sebelum update.");
+            JOptionPane.showMessageDialog(null, "Please complete all data before updating.");
             return;
         }
 
@@ -1205,15 +1213,15 @@ public class HomePage extends javax.swing.JFrame {
 
             int updated = pstmt.executeUpdate();
             if (updated > 0) {
-                JOptionPane.showMessageDialog(null, "Data berhasil diupdate.");
+                JOptionPane.showMessageDialog(null, "Data successfully updated.");
                 updateComponents(); // refresh table
             } else {
-                JOptionPane.showMessageDialog(null, "Gagal update data.");
+                JOptionPane.showMessageDialog(null, "Failed to update data.");
             }
 
             pstmt.close();
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Format angka tidak valid.");
+            JOptionPane.showMessageDialog(null, "Invalid number format.");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error database: " + e.getMessage());
         }
@@ -1224,7 +1232,7 @@ public class HomePage extends javax.swing.JFrame {
         // TODO add your handling code here:
         int selectedRow = incomeTable.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "Silakan pilih data income yang ingin diupdate.");
+            JOptionPane.showMessageDialog(null, "Please select the data row you want to update.");
             return;
         }
 
@@ -1234,7 +1242,7 @@ public class HomePage extends javax.swing.JFrame {
         java.util.Date date = incomeDate.getDate();
 
         if (account.equals("--select--") || source.equals("--select--") || amountText.isEmpty() || date == null) {
-            JOptionPane.showMessageDialog(null, "Mohon lengkapi semua data sebelum update.");
+            JOptionPane.showMessageDialog(null, "Please complete all data before updating.");
             return;
         }
 
@@ -1257,15 +1265,15 @@ public class HomePage extends javax.swing.JFrame {
 
             int updated = pstmt.executeUpdate();
             if (updated > 0) {
-                JOptionPane.showMessageDialog(null, "Data income berhasil diupdate.");
+                JOptionPane.showMessageDialog(null, "Income data successfully updated.");
                 updateComponents(); // refresh tampilan tabel
             } else {
-                JOptionPane.showMessageDialog(null, "Gagal update data income.");
+                JOptionPane.showMessageDialog(null, "Failed to update income data.");
             }
 
             pstmt.close();
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Format angka tidak valid.");
+            JOptionPane.showMessageDialog(null, "Invalid number format.");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error database: " + e.getMessage());
         }
@@ -1276,14 +1284,14 @@ public class HomePage extends javax.swing.JFrame {
         String newAccountName = jTextField1.getText().trim();
 
         if (newAccountName.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Nama account tidak boleh kosong.");
+            JOptionPane.showMessageDialog(null, "Account name is required.");
             return;
         }
 
         try {
             int selectedRow = accountTable.getSelectedRow();
             if (selectedRow == -1) {
-                JOptionPane.showMessageDialog(null, "Pilih account dari tabel terlebih dahulu.");
+                JOptionPane.showMessageDialog(null, "Choose an account from the table before continuing.");
                 return;
             }
 
@@ -1299,15 +1307,15 @@ public class HomePage extends javax.swing.JFrame {
 
             int result = pstmt.executeUpdate();
             if (result > 0) {
-                JOptionPane.showMessageDialog(null, "Nama account berhasil diperbarui.");
+                JOptionPane.showMessageDialog(null, "Account name successfully updated.");
                 updateComponents(); // refresh table
             } else {
-                JOptionPane.showMessageDialog(null, "Gagal memperbarui nama account.");
+                JOptionPane.showMessageDialog(null, "Failed to update account name.");
             }
 
             pstmt.close();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Kesalahan database: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error database: " + e.getMessage());
         }
 
     }//GEN-LAST:event_AccountUpdateButtonActionPerformed
@@ -1317,7 +1325,7 @@ public class HomePage extends javax.swing.JFrame {
         int selectedRow = budgetTable.getSelectedRow();
 
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "Silakan pilih baris budget yang ingin diupdate.");
+            JOptionPane.showMessageDialog(null, "Please select the data row you want to update.");
             return;
         }
 
@@ -1326,7 +1334,7 @@ public class HomePage extends javax.swing.JFrame {
         String amountText = BudgetAmount.getText().trim();
 
         if (newCategory.equals("--select--") || amountText.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Mohon lengkapi semua data sebelum update.");
+            JOptionPane.showMessageDialog(null, "Please complete all data before updating.");
             return;
         }
 
@@ -1343,19 +1351,19 @@ public class HomePage extends javax.swing.JFrame {
 
             int rows = pstmt.executeUpdate();
             if (rows > 0) {
-                JOptionPane.showMessageDialog(null, "Budget berhasil diperbarui.");
+                JOptionPane.showMessageDialog(null, "Budget successfully updated.");
                 BudgetAmount.setText("");
                 BudgetExpenseCategoryComboBox.setSelectedIndex(0);
                 updateComponents(); // refresh table
             } else {
-                JOptionPane.showMessageDialog(null, "Gagal memperbarui budget.");
+                JOptionPane.showMessageDialog(null, "Failed to update budget.");
             }
 
             pstmt.close();
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Masukkan jumlah anggaran yang valid.");
+            JOptionPane.showMessageDialog(null, "Please enter a valid budget amount.");
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Terjadi kesalahan database: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error database: " + e.getMessage());
         }
     }//GEN-LAST:event_BudgetUpdateButtonActionPerformed
 
@@ -2651,6 +2659,8 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
