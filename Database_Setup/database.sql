@@ -1,3 +1,4 @@
+drop database finova_desktop;
 create database finova_desktop;
 use finova_desktop;
 
@@ -198,8 +199,8 @@ INSERT INTO expense (user_id, account_id, expense_date, expense_category, remark
 (1, (SELECT account_id FROM account WHERE user_id = 1 AND account_type = 'Savings Account' LIMIT 1), '2025-06-05', 'Rent/Mortgage', 'Monthly rent payment', 1200.00),
 (1, (SELECT account_id FROM account WHERE user_id = 1 AND account_type = 'Checking Account' LIMIT 1), '2025-06-07', 'Transportation (Fuel, Public Transit)', 'Fuel for car', 60.00),
 (1, (SELECT account_id FROM account WHERE user_id = 1 AND account_type = 'Checking Account' LIMIT 1), '2025-06-12', 'Dining Out', 'Dinner with friends', 75.20),
-(1, (SELECT account_id FROM account WHERE user_id = 1 AND account_type = 'Checking Account' LIMIT 1), '2025-06-15', 'Entertainment', 'Movie tickets', 30.00),
-(1, (SELECT account_id FROM account WHERE user_id = 1 AND account_type = 'Checking Account' LIMIT 1), '2025-06-18', 'Groceries', 'Mid-month grocery top-up', 55.75);
+(1, (SELECT account_id FROM account WHERE user_id = 1 AND account_type = 'Checking Account' LIMIT 1), '2025-06-10', 'Entertainment', 'Movie tickets', 30.00),
+(1, (SELECT account_id FROM account WHERE user_id = 1 AND account_type = 'Checking Account' LIMIT 1), '2025-06-11', 'Groceries', 'Mid-month grocery top-up', 55.75);
 
 -- NEW DATA: Income and Expenses from January to May 2025
 

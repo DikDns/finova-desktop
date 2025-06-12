@@ -19,10 +19,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Arrays; // Import Arrays
 import java.util.List;   // Import List
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.io.File;
+import javax.imageio.ImageIO;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import java.io.ByteArrayInputStream;
 
 import Database.DatabaseManager;
 import Database.UserSession;
@@ -39,6 +51,8 @@ public class PdfExporter {
     private static final float LEADING = 1.5f * FONT_SIZE_NORMAL;
     private static final float MARGIN = 50;
     private static final DecimalFormat CURRENCY_FORMAT = new DecimalFormat("#,##0.00");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final String LOGO_PATH = "c:/Dev/finova-desktop/src/Icon/finova-logo.svg";
 
     public void exportToPdf(String filePath) {
         try (PDDocument document = new PDDocument()) {
@@ -115,6 +129,9 @@ public class PdfExporter {
             float y = (page.getMediaBox().getHeight() - scaledImageHeight) / 2;
 
             contentStream.drawImage(pdImage, x, y, scaledImageWidth, scaledImageHeight);
+            
+            // Add footer with timestamp and logo
+            addFooter(document, page, contentStream);
         }
     }
 
@@ -201,15 +218,20 @@ public class PdfExporter {
                             rs.getString("statement"),
                             rs.getString("time")
                     };
-                    drawTableRow(contentStream, MARGIN, currentY, rowData, columnWidths, headers); // Pass headers for context
-                    currentY -= LEADING;
-                }
-            }
-        } finally {
-            if (contentStream != null) {
-                contentStream.close();
+                drawTableRow(contentStream, MARGIN, currentY, rowData, columnWidths, headers); // Pass headers for context
+                currentY -= LEADING;
             }
         }
+        
+        // Add footer with timestamp and logo
+        if (contentStream != null) {
+            addFooter(document, page, contentStream);
+        }
+    } finally {
+        if (contentStream != null) {
+            contentStream.close();
+        }
+    }
     }
 
     private void addBudgetTablePage(PDDocument document) throws IOException, SQLException {
@@ -258,6 +280,11 @@ public class PdfExporter {
                     drawTableRow(contentStream, MARGIN, currentY, rowData, columnWidths, headers); // Pass headers
                     currentY -= LEADING;
                 }
+            }
+            
+            // Add footer with timestamp and logo
+            if (contentStream != null) {
+                addFooter(document, page, contentStream);
             }
         } finally {
             if (contentStream != null) {
@@ -313,6 +340,11 @@ public class PdfExporter {
                     drawTableRow(contentStream, MARGIN, currentY, rowData, columnWidths, headers); // Pass headers
                     currentY -= LEADING;
                 }
+            }
+            
+            // Add footer with timestamp and logo
+            if (contentStream != null) {
+                addFooter(document, page, contentStream);
             }
         } finally {
             if (contentStream != null) {
@@ -397,5 +429,111 @@ public class PdfExporter {
             total += val;
         }
         return total;
+    }
+
+    /**
+     * Adds a footer with timestamp to the page
+     */
+    private void addFooter(PDDocument document, PDPage page, PDPageContentStream contentStream) throws IOException {
+        String timestamp = "Generated on: " + DATE_FORMAT.format(new Date());
+        
+        // Calculate footer position
+        float footerY = 30; // 30 points from bottom
+        float pageWidth = page.getMediaBox().getWidth();
+        
+        // Add timestamp on the left
+        contentStream.beginText();
+        contentStream.setFont(FONT_REGULAR, FONT_SIZE_SMALL);
+        contentStream.newLineAtOffset(MARGIN, footerY);
+        contentStream.showText(timestamp);
+        contentStream.endText();
+        
+        // Add logo on the right
+        addLogoToFooter(document, page, contentStream, pageWidth - MARGIN - 100, footerY);
+    }
+
+    /**
+     * Adds the Finova logo to the footer
+     */
+    private void addLogoToFooter(PDDocument document, PDPage page, PDPageContentStream contentStream, float x, float y) throws IOException {
+        try {
+            // Read SVG file and convert to image
+            PDImageXObject logoImage = createImageFromSVG(document);
+            if (logoImage != null) {
+                // Scale logo to appropriate size for footer
+                float logoWidth = 32;
+                float logoHeight = 32;
+                contentStream.drawImage(logoImage, x, y, logoWidth, logoHeight);
+            } else {
+                // Fallback: Add text "FINOVA" if logo can't be loaded
+                contentStream.beginText();
+                contentStream.setFont(FONT_BOLD, FONT_SIZE_SMALL);
+                contentStream.newLineAtOffset(x, y + 5);
+                contentStream.showText("FINOVA");
+                contentStream.endText();
+            }
+        } catch (Exception e) {
+            // Fallback: Add text "FINOVA" if any error occurs
+            contentStream.beginText();
+            contentStream.setFont(FONT_BOLD, FONT_SIZE_SMALL);
+            contentStream.newLineAtOffset(x, y + 5);
+            contentStream.showText("FINOVA");
+            contentStream.endText();
+        }
+    }
+
+    /**
+     * Creates a PDImageXObject from PNG logo file
+     */
+    private PDImageXObject createImageFromSVG(PDDocument document) {
+        try {
+            // Load the PNG logo file
+            String logoPath = "c:/Dev/finova-desktop/src/Icon/finova-logo.png";
+            File logoFile = new File(logoPath);
+            
+            if (logoFile.exists()) {
+                BufferedImage logoImage = javax.imageio.ImageIO.read(logoFile);
+                return LosslessFactory.createFromImage(document, logoImage);
+            } else {
+                System.err.println("Logo file not found at: " + logoPath);
+                return createFallbackLogo(document);
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading logo image: " + e.getMessage());
+            return createFallbackLogo(document);
+        }
+    }
+    
+    /**
+     * Creates a fallback logo image with "FINOVA" text
+     */
+    private PDImageXObject createFallbackLogo(PDDocument document) {
+        try {
+            // Create a simple placeholder image with "FINOVA" text
+            BufferedImage logoImage = new BufferedImage(200, 50, BufferedImage.TYPE_INT_RGB);
+            java.awt.Graphics2D g2d = logoImage.createGraphics();
+            
+            // Set background to white
+            g2d.setColor(java.awt.Color.WHITE);
+            g2d.fillRect(0, 0, 200, 50);
+            
+            // Set text color and font
+            g2d.setColor(new java.awt.Color(67, 97, 123)); // #43617B from the original SVG
+            g2d.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 24));
+            
+            // Draw "FINOVA" text
+            java.awt.FontMetrics fm = g2d.getFontMetrics();
+            int textWidth = fm.stringWidth("FINOVA");
+            int x = (200 - textWidth) / 2;
+            int y = (50 + fm.getAscent()) / 2;
+            g2d.drawString("FINOVA", x, y);
+            
+            g2d.dispose();
+            
+            return LosslessFactory.createFromImage(document, logoImage);
+        } catch (Exception e) {
+            System.err.println("Error creating fallback logo: " + e.getMessage());
+            return null;
+        }
     }
 }

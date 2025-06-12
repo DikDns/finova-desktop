@@ -10,29 +10,20 @@ import finova.PdfExporter;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import java.sql.DriverManager;
-import java.sql.Connection;
-import java.sql.Statement;
 import java.sql.ResultSet;
 import Database.UserSession;
 import javax.swing.table.DefaultTableModel;
 import Database.DatabaseManager;
 import CurrencyAPI.CurrencyAPI.CurrencyInfo;
 
-import java.awt.event.ActionEvent;
 import java.util.Date;
 import Chart.IncomeExpenseChart;
 import CurrencyAPI.CurrencyAPI;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import java.awt.print.PrinterException;
 import java.io.File;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JTable;
 
 /**
  *
@@ -1179,64 +1170,139 @@ public class HomePage extends javax.swing.JFrame {
       return;
     }
 
-    String oldAccount = expenseTable.getValueAt(selectedRow, 0).toString(); // akun lama (dari tabel)
-    String oldcategory = expenseTable.getValueAt(selectedRow, 1).toString(); // cateogry lama (dari tabel)
+    String oldAccount = expenseTable.getValueAt(selectedRow, 0).toString();
+    String oldCategory = expenseTable.getValueAt(selectedRow, 1).toString();
+    String oldAmountText = expenseTable.getValueAt(selectedRow, 2).toString();
+    String oldDateText = expenseTable.getValueAt(selectedRow, 3).toString();
+    String oldRemark = expenseTable.getValueAt(selectedRow, 4).toString();
 
-    String account = expenseAccountName.getSelectedItem().toString();
-    String category = expenseCategoryComboBox.getSelectedItem().toString();
-    String amountText = expenseAmount.getText();
-    java.util.Date date = expenseDate.getDate();
-    String remark = expenseRemark.getText();
+    String expenseCategory = expenseCategoryComboBox.getSelectedItem().toString();
+    String expenseAmountText = expenseAmount.getText();
+    String expenseRemarkText = expenseRemark.getText();
 
-    if (account.equals("--select--") || category.equals("--select--") || amountText.isEmpty() || date == null) {
-      JOptionPane.showMessageDialog(null, "Please complete all data before updating.");
+    if (expenseDate.getDate() == null) {
+      JOptionPane.showMessageDialog(null, "Please enter Expense Date.");
+      return;
+    }
+    if (expenseAccountName.getSelectedItem() == "--select--") {
+      JOptionPane.showMessageDialog(null, "Please select Account!");
       return;
     }
 
-    System.out.println("Account: " + account);
-    System.out.println("category: " + category);
+    java.sql.Date expensedate = new java.sql.Date(expenseDate.getDate().getTime());
+    int accountId = 0;
+    int oldAccountId = 0;
 
-    try {
-      double amount = Double.parseDouble(amountText);
-      String formattedDate = new java.text.SimpleDateFormat("yyyy-MM-dd").format(date);
+    if (!expenseCategory.isEmpty() && !expenseCategory.equals("--select--")) {
+      if (!expenseAmountText.isEmpty()) {
+        try {
+          double newAmount = Double.parseDouble(expenseAmountText);
+          double oldAmount = Double.parseDouble(oldAmountText);
 
-      // Asumsi: primary key transaksi adalah kombinasi yang unik dari data tabel
-      // (atau Anda bisa tambahkan kolom id_transaksi dan simpan ID-nya)
-      String query = "UPDATE expense SET amount = ?, expense_date = ?, remark = ?, "
-          + "account_id = (SELECT account_id FROM account WHERE account_type = ? AND user_id = ?), "
-          + "expense_category = (SELECT expense_category FROM expense_category WHERE category_name = ? AND user_id = ?)"
-          + "WHERE account_id = (SELECT account_id FROM account WHERE account_type = ? AND user_id = ?) "
-          + "AND expense_category = (SELECT expense_category FROM expense_category WHERE category_name = ? AND user_id = ?) "
-          + "AND expense_date = ?";
+          DatabaseManager.connect();
 
-      DatabaseManager.connect();
-      PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(query);
-      pstmt.setDouble(1, amount);
-      pstmt.setString(2, formattedDate);
-      pstmt.setString(3, remark);
-      pstmt.setString(4, account);
-      pstmt.setInt(5, UserSession.userId);
-      pstmt.setString(6, category);
-      pstmt.setInt(7, UserSession.userId);
-      pstmt.setString(8, oldAccount);
-      pstmt.setInt(9, UserSession.userId);
-      pstmt.setString(10, oldcategory);
-      pstmt.setInt(11, UserSession.userId);
-      pstmt.setString(12, formattedDate); // WHERE clause: original date (as key)
+          // Get old account details
+          String oldAccountQuery = "SELECT account_id, balance, liabilities FROM account WHERE account_type = ? and user_id = ?";
+          PreparedStatement oldAccountStmt = DatabaseManager.getConnection().prepareStatement(oldAccountQuery);
+          oldAccountStmt.setString(1, oldAccount);
+          oldAccountStmt.setInt(2, UserSession.userId);
+          ResultSet oldAccountResult = oldAccountStmt.executeQuery();
 
-      int updated = pstmt.executeUpdate();
-      if (updated > 0) {
-        JOptionPane.showMessageDialog(null, "Data successfully updated.");
-        updateComponents(); // refresh table
+          if (oldAccountResult.next()) {
+            oldAccountId = oldAccountResult.getInt("account_id");
+            double oldAccountBalance = oldAccountResult.getDouble("balance");
+            double oldAccountLiabilities = oldAccountResult.getDouble("liabilities");
+
+            // Revert old transaction (add back the old amount to balance, subtract from
+            // liabilities)
+            double revertedBalance = oldAccountBalance + oldAmount;
+            double revertedLiabilities = oldAccountLiabilities - oldAmount;
+
+            String revertQuery = "UPDATE account SET balance = ?, liabilities = ? WHERE account_id = ?";
+            PreparedStatement revertStmt = DatabaseManager.getConnection().prepareStatement(revertQuery);
+            revertStmt.setDouble(1, revertedBalance);
+            revertStmt.setDouble(2, revertedLiabilities);
+            revertStmt.setInt(3, oldAccountId);
+            revertStmt.executeUpdate();
+            revertStmt.close();
+          }
+          oldAccountStmt.close();
+
+          // Get new account details
+          String accountQuery = "SELECT account_id, balance, liabilities FROM account WHERE account_type = ? and user_id = ?";
+          PreparedStatement accountStmt = DatabaseManager.getConnection().prepareStatement(accountQuery);
+          accountStmt.setString(1, expenseAccountName.getSelectedItem().toString());
+          accountStmt.setInt(2, UserSession.userId);
+          ResultSet accountResult = accountStmt.executeQuery();
+
+          if (accountResult.next()) {
+            accountId = accountResult.getInt("account_id");
+            double currentBalance = accountResult.getDouble("balance");
+            double currentTotalExp = accountResult.getDouble("liabilities");
+
+            if (currentBalance < newAmount) {
+              JOptionPane.showMessageDialog(null,
+                  "Insufficient funds. Please choose a different account.");
+              return;
+            }
+
+            double newExp = currentTotalExp + newAmount;
+            double newBalance = currentBalance - newAmount;
+            String updateQuery = "UPDATE account SET balance = ?, liabilities = ? WHERE account_id = ?";
+            PreparedStatement updateStmt = DatabaseManager.getConnection().prepareStatement(updateQuery);
+            updateStmt.setDouble(1, newBalance);
+            updateStmt.setDouble(2, newExp);
+            updateStmt.setInt(3, accountId);
+            int rowsUpdated = updateStmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+              // Update the expense record
+              String updateExpenseQuery = "UPDATE expense SET account_id = ?, expense_date = ?, expense_category = ?, remark = ?, amount = ? WHERE account_id = ? AND expense_category = ? AND expense_date = ? AND amount = ? AND user_id = ?";
+              PreparedStatement expenseStmt = DatabaseManager.getConnection().prepareStatement(updateExpenseQuery);
+              expenseStmt.setInt(1, accountId);
+              expenseStmt.setDate(2, expensedate);
+              expenseStmt.setString(3, expenseCategory);
+              expenseStmt.setString(4, expenseRemarkText);
+              expenseStmt.setDouble(5, newAmount);
+              expenseStmt.setInt(6, oldAccountId);
+              expenseStmt.setString(7, oldCategory);
+              expenseStmt.setString(8, oldDateText);
+              expenseStmt.setDouble(9, oldAmount);
+              expenseStmt.setInt(10, UserSession.userId);
+
+              int expenseRowsUpdated = expenseStmt.executeUpdate();
+              if (expenseRowsUpdated > 0) {
+                JOptionPane.showMessageDialog(null, "Expense updated successfully!");
+                expenseDate.setDate(null);
+                expenseCategoryComboBox.setSelectedIndex(0);
+                expenseAmount.setText("");
+                expenseRemark.setText("");
+                expenseAccountName.setSelectedIndex(0);
+                updateComponents();
+              } else {
+                JOptionPane.showMessageDialog(null, "Failed to update expense.");
+              }
+
+              expenseStmt.close();
+            } else {
+              JOptionPane.showMessageDialog(null, "Failed to update account liabilities.");
+            }
+            updateStmt.close();
+          } else {
+            JOptionPane.showMessageDialog(null, "Account not found.");
+          }
+
+          accountStmt.close();
+        } catch (NumberFormatException ex) {
+          JOptionPane.showMessageDialog(null, "Please enter a valid expense amount (numbers only).");
+        } catch (SQLException ex) {
+          JOptionPane.showMessageDialog(null, "Error occurred while updating expense: " + ex.getMessage());
+        }
       } else {
-        JOptionPane.showMessageDialog(null, "Failed to update data.");
+        JOptionPane.showMessageDialog(null, "Please enter an expense amount.");
       }
-
-      pstmt.close();
-    } catch (NumberFormatException e) {
-      JOptionPane.showMessageDialog(null, "Invalid number format.");
-    } catch (SQLException e) {
-      JOptionPane.showMessageDialog(null, "Error database: " + e.getMessage());
+    } else {
+      JOptionPane.showMessageDialog(null, "Please select an expense category.");
     }
 
   }// GEN-LAST:event_ExpenseUpdateButtonActionPerformed
