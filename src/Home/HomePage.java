@@ -496,11 +496,6 @@ public class HomePage extends javax.swing.JFrame {
 
     exchangeRatesLabel.setEditable(false);
     exchangeRatesLabel.setFont(new java.awt.Font("Spectral", 0, 12)); // NOI18N
-    exchangeRatesLabel.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        exchangeRatesLabelActionPerformed(evt);
-      }
-    });
     Home_tab.add(exchangeRatesLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 230, 140, 30));
 
     jPanel7.setBackground(new java.awt.Color(225, 225, 225));
@@ -508,11 +503,6 @@ public class HomePage extends javax.swing.JFrame {
 
     balanceLabel.setEditable(false);
     balanceLabel.setFont(new java.awt.Font("Spectral", 1, 14)); // NOI18N
-    balanceLabel.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        balanceLabelActionPerformed(evt);
-      }
-    });
     jPanel7.add(balanceLabel);
     balanceLabel.setBounds(30, 100, 130, 30);
 
@@ -1029,11 +1019,6 @@ public class HomePage extends javax.swing.JFrame {
 
     BudgetExpenseCategoryComboBox.setFont(new java.awt.Font("Chivo", 0, 13)); // NOI18N
     BudgetExpenseCategoryComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--select--", " " }));
-    BudgetExpenseCategoryComboBox.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        BudgetExpenseCategoryComboBoxActionPerformed(evt);
-      }
-    });
     Budget_tab.add(BudgetExpenseCategoryComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 140, 30));
 
     removeBudgetComboBox.setFont(new java.awt.Font("Spectral", 0, 13)); // NOI18N
