@@ -45,4 +45,8 @@ public class DatabaseManager {
         return resultSet;
     }
 
+    public static void executeUpdate(String insert_into_default_accounts_account_name, String accountName, int accountId) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }
