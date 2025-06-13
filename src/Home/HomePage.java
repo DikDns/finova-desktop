@@ -1209,7 +1209,7 @@ public class HomePage extends javax.swing.JFrame {
             
         if (rs.next()) {
             String username = rs.getString("username");
-            String greeting = "Halo, " + username + "! Selamat datang kembali";
+            String greeting = "Halo, " + username + "! Welcome back to Finova Desktop App.";
             greetingLabel.setText(greeting);
         }
     } catch (Exception e){
