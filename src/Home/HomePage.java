@@ -1449,7 +1449,7 @@ public class HomePage extends javax.swing.JFrame {
     try {
       int selectedRow = accountTable.getSelectedRow();
       if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(null, "Choose an account from the table before continuing.");
+        JOptionPane.showMessageDialog(null, "Choose an account from the table before continuing..");
         return;
       }
 
@@ -1483,7 +1483,7 @@ public class HomePage extends javax.swing.JFrame {
     int selectedRow = budgetTable.getSelectedRow();
 
     if (selectedRow == -1) {
-      JOptionPane.showMessageDialog(null, "Please select the data row you want to update.");
+      JOptionPane.showMessageDialog(null, "Please select the data row to update.");
       return;
     }
     
@@ -1987,7 +1987,7 @@ public class HomePage extends javax.swing.JFrame {
           // populateTable();
           updateComponents(); // updates all components after deleting account successfully
         } else {
-          JOptionPane.showMessageDialog(null, "Failed to delete account.");
+          JOptionPane.showMessageDialog(null, "Delete account unsuccessfull.");
         }
 
         pstmt.close();
@@ -2022,14 +2022,14 @@ public class HomePage extends javax.swing.JFrame {
 
         ResultSet resultSet = checkStmt.executeQuery();
         if (resultSet.next()) {
-          JOptionPane.showMessageDialog(null, "An account with the same name already exists.");
+          JOptionPane.showMessageDialog(null, "Account already exists.");
         } else {
           String insertQuery = "INSERT INTO account(account_type, balance, user_id, liabilities) VALUES (?, ?, ?, ?)";
           PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(insertQuery);
           pstmt.setString(1, accountName);
           pstmt.setDouble(2, 0); // Initial balance set to 0
           pstmt.setDouble(4, 0); // Initial liability set to 0
-          pstmt.setInt(3, UserSession.userId); // Assuming userId is accessible from UserSession
+          pstmt.setInt(3, UserSession.userId); 
 
           int rowsInserted = pstmt.executeUpdate();
           if (rowsInserted > 0) {
