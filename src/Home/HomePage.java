@@ -1142,13 +1142,12 @@ public class HomePage extends javax.swing.JFrame {
 
         budgetTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Expense Category", "Amount"
+                "Expense Category", "Amount", "ID"
             }
         ));
         jScrollPane7.setViewportView(budgetTable);
@@ -1487,29 +1486,37 @@ public class HomePage extends javax.swing.JFrame {
       JOptionPane.showMessageDialog(null, "Please select the data row you want to update.");
       return;
     }
+    
+    int budgetId = Integer.parseInt (budgetTable.getValueAt(selectedRow, 2).toString());
 
-    String oldCategory = budgetTable.getValueAt(selectedRow, 0).toString(); // kategori lama (dari tabel)
+    //String oldCategory = budgetTable.getValueAt(selectedRow, 0).toString(); // kategori lama (dari tabel)
     String newCategory = BudgetExpenseCategoryComboBox.getSelectedItem().toString(); // kategori baru
-    String amountText = BudgetAmount.getText().trim();
+    String newAmountText = BudgetAmount.getText().trim();
 
-    if (newCategory.equals("--select--") || amountText.isEmpty()) {
+    if (newCategory.equals("--select--")) {
       JOptionPane.showMessageDialog(null, "Please complete all data before updating.");
       return;
     }
+    
+    if (newAmountText.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "please enter a budget amount.");
+        return;
+    }
 
     try {
-      double amount = Double.parseDouble(amountText);
+      double newAmount = Double.parseDouble(newAmountText);
 
       DatabaseManager.connect();
-      String query = "UPDATE budget SET expense_category = ?, amount = ? WHERE user_id = ? AND expense_category = ?";
-      PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(query);
-      pstmt.setString(1, newCategory);
-      pstmt.setDouble(2, amount);
-      pstmt.setInt(3, UserSession.userId);
-      pstmt.setString(4, oldCategory);
+      String updateQuery = "UPDATE budget SET expense_category = ?, amount = ? WHERE budget_id = ? AND user_id = ?";
+      PreparedStatement updateStmt = DatabaseManager.getConnection().prepareStatement(updateQuery);
+      updateStmt.setString(1, newCategory);
+      updateStmt.setDouble(2, newAmount);
+      updateStmt.setInt(3, budgetId);
+      updateStmt.setInt(4, UserSession.userId);
+      //pstmt.setString(4, oldCategory);
 
-      int rows = pstmt.executeUpdate();
-      if (rows > 0) {
+      int rowsUpdate = updateStmt.executeUpdate();
+      if (rowsUpdate > 0) {
         JOptionPane.showMessageDialog(null, "Budget successfully updated.");
         BudgetAmount.setText("");
         BudgetExpenseCategoryComboBox.setSelectedIndex(0);
@@ -1518,7 +1525,7 @@ public class HomePage extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Failed to update budget.");
       }
 
-      pstmt.close();
+      updateStmt.close();
     } catch (NumberFormatException e) {
       JOptionPane.showMessageDialog(null, "Please enter a valid budget amount.");
     } catch (SQLException e) {
@@ -2588,7 +2595,7 @@ public class HomePage extends javax.swing.JFrame {
     model.setRowCount(0); // Clear previous data from the table
 
     try {
-      String query = "SELECT expense_category, amount FROM budget WHERE user_id = ? order by expense_category";
+      String query = "SELECT expense_category, amount, budget_id FROM budget WHERE user_id = ? order by expense_category";
       PreparedStatement pstmt = DatabaseManager.getConnection().prepareStatement(query);
       pstmt.setInt(1, UserSession.userId); // Assuming userId is accessible from UserSession
 
@@ -2598,13 +2605,20 @@ public class HomePage extends javax.swing.JFrame {
       while (rs.next()) {
         String expenseCategory = rs.getString("expense_category");
         double amount = rs.getDouble("amount");
+        int budgetId = rs.getInt("budget_id");
 
         // Add a row to the table model
-        model.addRow(new Object[] { expenseCategory, amount });
+        model.addRow(new Object[] { expenseCategory, amount, budgetId });
       }
 
       rs.close();
       pstmt.close();
+      if (budgetTable.getColumnCount() > 2) {
+          budgetTable.getColumnModel().getColumn(2).setMinWidth(0);
+          budgetTable.getColumnModel().getColumn(2).setMaxWidth(0);
+          budgetTable.getColumnModel().getColumn(2).setWidth(0);
+      }
+ 
     } catch (SQLException ex) {
       JOptionPane.showMessageDialog(null,
           "An error occurred while populating the budget table: " + ex.getMessage());
