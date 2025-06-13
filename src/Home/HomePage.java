@@ -52,6 +52,7 @@ public class HomePage extends javax.swing.JFrame {
     IncomeBalanceLabel.setText(currentBalance);
     ExpenseBalanceLabel.setText(currentBalance);
     
+    showGreeting();
 
     updateComponents();
   }
@@ -216,6 +217,7 @@ public class HomePage extends javax.swing.JFrame {
         printButton = new javax.swing.JButton();
         jLabel43 = new javax.swing.JLabel();
         jLabel44 = new javax.swing.JLabel();
+        greetingLabel = new javax.swing.JLabel();
         Account_tab = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -490,7 +492,7 @@ public class HomePage extends javax.swing.JFrame {
                 exchangeRatesLabelActionPerformed(evt);
             }
         });
-        Home_tab.add(exchangeRatesLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 230, 140, 30));
+        Home_tab.add(exchangeRatesLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 300, 140, 30));
 
         jPanel7.setBackground(new java.awt.Color(225, 225, 225));
         jPanel7.setLayout(null);
@@ -515,7 +517,7 @@ public class HomePage extends javax.swing.JFrame {
         jPanel7.add(jLabel20);
         jLabel20.setBounds(60, 10, 70, 60);
 
-        Home_tab.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 190, 150));
+        Home_tab.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 190, 150));
 
         jPanel6.setBackground(new java.awt.Color(225, 225, 225));
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -533,7 +535,7 @@ public class HomePage extends javax.swing.JFrame {
         jLabel16.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel6.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 70, 60));
 
-        Home_tab.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 20, 190, 150));
+        Home_tab.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, 190, 150));
 
         jPanel8.setBackground(new java.awt.Color(225, 225, 225));
         jPanel8.setLayout(null);
@@ -559,7 +561,7 @@ public class HomePage extends javax.swing.JFrame {
         jPanel8.add(jLabel14);
         jLabel14.setBounds(60, 10, 70, 60);
 
-        Home_tab.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 20, 190, 150));
+        Home_tab.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 80, 190, 150));
 
         jPanel9.setBackground(new java.awt.Color(225, 225, 225));
         jPanel9.setLayout(null);
@@ -580,7 +582,7 @@ public class HomePage extends javax.swing.JFrame {
         jPanel9.add(jLabel4);
         jLabel4.setBounds(60, 10, 70, 60);
 
-        Home_tab.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 20, 190, 150));
+        Home_tab.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 80, 190, 150));
 
         jButton2.setBackground(new java.awt.Color(55, 98, 217));
         jButton2.setFont(new java.awt.Font("Chivo", 1, 12)); // NOI18N
@@ -591,11 +593,11 @@ public class HomePage extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        Home_tab.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 140, 40));
+        Home_tab.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 140, 40));
 
         jLabel31.setFont(new java.awt.Font("Chivo", 1, 16)); // NOI18N
         jLabel31.setText("Exchange Rate:");
-        Home_tab.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 230, 130, 30));
+        Home_tab.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 300, 130, 30));
 
         transactionTable.setFont(new java.awt.Font("Spectral", 0, 12)); // NOI18N
         transactionTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -612,7 +614,7 @@ public class HomePage extends javax.swing.JFrame {
         transactionTable.setEnabled(false);
         jScrollPane3.setViewportView(transactionTable);
 
-        Home_tab.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 790, 150));
+        Home_tab.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 790, 150));
 
         jPanel2.setBackground(new java.awt.Color(225, 225, 225));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -629,7 +631,7 @@ public class HomePage extends javax.swing.JFrame {
         progressLabel.setText("No Data Available");
         jPanel2.add(progressLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, 130, -1));
 
-        Home_tab.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 180, 450, 40));
+        Home_tab.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 250, 450, 40));
 
         printButton.setBackground(new java.awt.Color(55, 98, 217));
         printButton.setFont(new java.awt.Font("Chivo", 1, 12)); // NOI18N
@@ -640,15 +642,18 @@ public class HomePage extends javax.swing.JFrame {
                 printButtonActionPerformed(evt);
             }
         });
-        Home_tab.add(printButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 180, 140, 40));
+        Home_tab.add(printButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 250, 140, 40));
 
         jLabel43.setFont(new java.awt.Font("Spectral", 0, 12)); // NOI18N
         jLabel43.setText("(Income is the money you earn and Expenses are the money you spend.)");
-        Home_tab.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, -1, -1));
+        Home_tab.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 310, -1, -1));
 
         jLabel44.setFont(new java.awt.Font("Chivo", 1, 16)); // NOI18N
         jLabel44.setText("Transactions");
-        Home_tab.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 110, 30));
+        Home_tab.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 110, 30));
+
+        greetingLabel.setFont(new java.awt.Font("Chivo", 1, 18)); // NOI18N
+        Home_tab.add(greetingLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
 
         Home_tab_scrollpane.setViewportView(Home_tab);
 
@@ -1196,6 +1201,23 @@ public class HomePage extends javax.swing.JFrame {
     // Kosongkan atau beri logika jika perlu
     }
 
+    private void showGreeting(){
+        try {
+            DatabaseManager.connect();
+            ResultSet rs = DatabaseManager.executeQuery(
+            "Select username from user where user_id = " + UserSession.userId
+            );
+            
+        if (rs.next()) {
+            String username = rs.getString("username");
+            String greeting = "Halo, " + username + "! Selamat datang kembali";
+            greetingLabel.setText(greeting);
+        }
+    } catch (Exception e){
+        System.out.println("Errot fetching greeting: " + e.getMessage());
+    }
+    }
+            
 
   private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_printButtonActionPerformed
     JFileChooser fileChooser = new JFileChooser();
@@ -2742,6 +2764,7 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JTextField expenseRemark;
     private javax.swing.JTable expenseTable;
     private org.knowm.xchart.style.theme.GGPlot2Theme gGPlot2Theme1;
+    private javax.swing.JLabel greetingLabel;
     private javax.swing.JComboBox<String> incomeAccountName;
     private javax.swing.JTextField incomeAmount;
     private com.toedter.calendar.JDateChooser incomeDate;
