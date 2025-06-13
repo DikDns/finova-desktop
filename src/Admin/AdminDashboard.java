@@ -152,7 +152,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     }
 
     private void createDefaultAccount(String accountName) {
-        int accountId;
+        int accountId = 0;
         DatabaseManager.executeUpdate("INSERT INTO default_accounts (account_name) VALUES (?)",
                 accountName, accountId
         );
@@ -168,7 +168,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     }
 
     private void deleteDefaultAccount(String accountName) {
-        int accountId;
+        int accountId = 0;
         DatabaseManager.executeUpdate("DELETE FROM default_accounts WHERE account_name = ?",
                 accountName, accountId
         );
